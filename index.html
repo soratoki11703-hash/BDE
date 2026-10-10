@@ -348,6 +348,12 @@ body.testing .quit{display:inline-block}
 .between b{color:var(--aka)}
 .between span{font-weight:700}
 
+.xnote{max-width:40em;margin:24px auto 0;background:var(--kin-pale);border-radius:10px;padding:14px 18px;font-size:14.5px;line-height:1.7}
+.xnote b{display:block;color:var(--aka);font-size:16px;margin-bottom:2px}
+
+.box.research{border:2px dashed var(--aka)}
+.box.research textarea{width:100%;min-height:70px;font:12px/1.5 ui-monospace,Menlo,monospace;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--mist);color:var(--ink);margin-bottom:10px;word-break:break-all}
+
 @media (max-width:860px){
   .steps,.laws{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -512,6 +518,27 @@ for(let i=0;i<5;i++){
   if(i===2||i===4) [0,2,4].forEach(j=>{const g=GQ[j+(i===2?0:1)];items.push({k:"GR",grp:1,x:g[0],y:g[1],pair:1,t:g[2],a:g[3],b:g[4],f:!!g[5]})});
 }
 const PER=10,PAGES=Math.ceil(items.length/PER);
+// 僅差の人にだけ出す追加の設問（大分類どうし：G、ペアどうし：P）
+const XB_RAW={
+  "01":[["飲み会での自分は","場を回して盛り上げる","話を聞いてツッコまれる"],["初対面の人には","自分から話しかけて主導する","話しかけられるのを待って合わせる",1],["褒められたいのは","頼もしさ","親しみやすさ"],["ケンカになりそうなときは","先に言い返す","まず相手の言い分を聞く",1],["チームでの役割は","方針を決めて引っ張る","みんなの声を拾ってまとめる"],["からかわれたときは","やり返して笑いに変える","いじられ役に回って笑いに変える",1]],
+  "12":[["周りから見た自分は","話しやすい身近な人","ちょっと特別なキャラの人"],["目立つときは","たまたまいじられて目立つ","狙ってキャラを出して目立つ",1],["人を惹きつけるのは","隙や優しさ","華や存在感"],["SNSでいうと","友だちが楽しんでくれれば十分","知らない人にもキャラで覚えられたい",1],["失敗したときの見られ方は","ほっとけないと思われる","それもネタとして成立する"],["人前での自分は","素のまま","場に合わせて見せ方を変える",1]],
+  "20":[["勝負どころでは","キャラで場の空気ごと持っていく","正面から押し切る"],["自信の種類は","どう見せても自分は自分という余裕","根拠はないけど勝てるという確信",1],["人気の理由は","何をしてもその人っぽいところ","勢いと強さ"],["反論されたら","笑いに変えてかわす","真っ向から言い返す",1],["理想の立ち位置は","みんなに愛されるマスコット","みんなを引っ張るリーダー"],["自分の強気な面は","出し入れして使い分けている","いつも全開",1]],
+  DO:[["相手を説得するときは","理屈と勢いで押し切る","相手の気持ちに寄り添って動かす"],["頼られ方は","困ったら前に出てくれる人","困ったら包み込んでくれる人",1],["怒るときは","はっきり強く言う","静かに相手を管理する"],["恋愛では","自分からグイグイいく","相手を自分なしでいられなくする",1],["自信の見せ方は","言葉や態度で前面に出す","余裕や面倒見のよさににじませる"],["近いのは","切り込み隊長","肝っ玉母さん",1]],
+  CV:[["いじられたときは","おいしいと思って乗っかる","相手が楽しいならいいと受け流す"],["人に好かれるのは","ツッコミどころが多いから","否定せず話を聞くから",1],["困ったときは","ダサい姿を見せて助けてもらう","我慢して相手に合わせる"],["近いのは","愛されいじられキャラ","聞き上手な癒やし役",1],["恋愛では","からかわれて可愛がられる","相手に尽くして受け止める"],["言われたいのは","「おもしろい」","「やさしい」",1]],
+  KH:[["注目されるのは","キャラの濃さ","華やかさ"],["好かれ方は","クセになる","誰にでも好かれる",1],["近いのは","芸人","アイドル"],["見せ方は","計算して演じる","自然とにじみ出る",1],["ファンが言うのは","「何をしてもおもしろい」","「いるだけでかわいい・かっこいい」"],["魅力の源は","強気と弱気の出し入れ","性別を超えたポップさ",1]],
+};
+const XB={G:{},P:{}},XI={};
+for(const key of ["01","12","20"]) XB.G[key]=XB_RAW[key].map((q,j)=>{const it={xid:`G${key}-${j}`,grp:1,pair:1,x:+key[0],y:+key[1],t:q[0],a:q[1],b:q[2],f:!!q[3]};XI[it.xid]=it;return it});
+for(const p of ["DO","CV","KH"]) XB.P[p]=XB_RAW[p].map((q,j)=>{const it={xid:`P${p}-${j}`,pair:1,k:p,t:q[0],a:q[1],b:q[2],f:!!q[3]};XI[it.xid]=it;return it});
+const PKEY={D:"DO",O:"DO",C:"CV",V:"CV",K:"KH",H:"KH"};
+const comboKey=(a,b)=>{const m=[a,b].sort().join("");return m==="01"?"01":m==="12"?"12":"20"};
+function nextExtra(r,ext){
+  const used=new Set(ext.map(e=>e.id));
+  const gR=ext.filter(e=>e.id[0]==="G").length/3, pR=ext.filter(e=>e.id[0]==="P").length/3;
+  if(r.ggap<6&&gR<2){const q=XB.G[comboKey(r.gi,r.g2)].filter(it=>!used.has(it.xid)).slice(0,3);if(q.length)return q}
+  if(r.margin<12&&pR<2){const q=XB.P[PKEY[r.type]].filter(it=>!used.has(it.xid)).slice(0,3);if(q.length)return q}
+  return [];
+}
 let ans=new Array(items.length).fill(null),page=0;
 
 /* 六角形の頂点＝6タイプ */
@@ -553,7 +580,7 @@ const $=s=>document.querySelector(s);
 const clamp=v=>Math.max(0,Math.min(100,v));
 const pct=(a,b)=>a+b===0?50:a/(a+b)*100;
 
-function score(a){
+function score(a,ext=[]){
   // 何でも「そう思う」と答えるクセを、正逆そろった設問の平均から推定して差し引く
   const reg=items.map((it,i)=>it.pair||it.gender?null:(a[i]==null?3:a[i])).filter(x=>x!=null);
   const acq=reg.reduce((x,y)=>x+y,0)/reg.length-3;
@@ -566,12 +593,14 @@ function score(a){
   // 大分類どうしの比較：+ならxの側
   const gcon=[0,0,0];
   items.forEach((it,i)=>{if(!it.grp)return;const x=a[i]==null?3:a[i];const v=((it.f?6-x:x)-3)/2;gcon[it.x]+=v;gcon[it.y]-=v});
+  ext.forEach(e=>{const it=XI[e.id];if(!it||!it.grp)return;const v=((it.f?6-e.v:e.v)-3)/2;gcon[it.x]+=v;gcon[it.y]-=v});
   // 魅力の出し方：男性的=+1（BDE・BCE・BKE寄り）、女性的=-1（BOE・BVE・BHE寄り）
   const gi0=items.findIndex(it=>it.gender), gv=a[gi0]==null?1:a[gi0], gq=gv-1;
   const con={};
   for(const p of ["DO","CV","KH"]){
     const v=items.map((it,i)=>{if(it.k!==p)return null;const x=a[i]==null?3:a[i];return (it.f?6-x:x)-3}).filter(x=>x!=null);
-    con[p]=v.reduce((x,y)=>x+y,0)/v.length;
+    ext.forEach(e=>{const it=XI[e.id];if(it&&it.k===p)v.push((it.f?6-e.v:e.v)-3)});
+    con[p]=v.reduce((x,y)=>x+y,0)/2; // 基本2問を1単位とし、追加で答えた分だけ判断材料が増える
   }
   const s={D:raw.D,C:raw.C,O:raw.O,V:raw.V,L:raw.L,A:raw.A,F:raw.F};
   // BKE/BHE は自己評価に「変換量（両極の小さいほう）」を加味
@@ -590,7 +619,7 @@ function score(a){
   const sub=margin<8?partner:pick(G[g2===gi?(gi+1)%3:g2])[0];
   const close=margin<8||ggap<4;
   const d=s.L-s.A, h=d>=10?"L":d<=-10?"A":"M";
-  return {s,type,sub,h,close,con};
+  return {s,type,sub,h,close,con,gi,g2,ggap,margin};
 }
 function advice(r){
   const {s,type}=r,o=[["あなたの伸び代",...TYPES[type].grow]];
@@ -607,46 +636,63 @@ const IMG=(t,kind,cls="")=>`<img class="${cls}" src="images/${E[t].code.toLowerC
 
 /* ---------- テスト ---------- */
 const SZ=[52,44,36,28,36,44,52];
-function renderPage(){
-  const st=page*PER,en=Math.min(st+PER,items.length);let h="";
-  const LB=["とてもそう思う","そう思う","ややそう思う","どちらでもない","ややそう思わない","そう思わない","まったくそう思わない"];
-  for(let i=st;i<en;i++){
-    const it=items[i];
+function qHTML(it,i,val){
+  let h="";const LB=["とてもそう思う","そう思う","ややそう思う","どちらでもない","ややそう思わない","そう思わない","まったくそう思わない"];
     if(it.gender){
       const opts=[[2,"男性的"],[0,"女性的"],[1,"どちらでもない・答えたくない"]];
-      h+=`<div class="q gq${ans[i]!=null?" done":""}" id="q${i}"><p class="t">${it.t}</p><p class="gnote">BDE理論では、BDEとBOE、BCEとBVE、BKEとBHEは「同じエネルギーの男性的な出方と女性的な出方」とされています。生まれの性別ではなく、出し方で選んでください。</p><div class="gopts" role="radiogroup" aria-label="${it.t}">${opts.map(([v,l])=>`<label class="gopt"><input type="radio" name="a${i}" id="a${i}_${v}" value="${v}" ${ans[i]===v?"checked":""}><span>${l}</span></label>`).join("")}</div></div>`;
-      continue;
+      h+=`<div class="q gq${val!=null?" done":""}" id="q${i}"><p class="t">${it.t}</p><p class="gnote">BDE理論では、BDEとBOE、BCEとBVE、BKEとBHEは「同じエネルギーの男性的な出方と女性的な出方」とされています。生まれの性別ではなく、出し方で選んでください。</p><div class="gopts" role="radiogroup" aria-label="${it.t}">${opts.map(([v,l])=>`<label class="gopt"><input type="radio" name="a${i}" id="a${i}_${v}" value="${v}" ${val===v?"checked":""}><span>${l}</span></label>`).join("")}</div></div>`;
+      return h;
     }
     // ペア比較は左右に選択肢を出す（fなら左右を入れ替え）
     const L=it.pair?(it.f?it.b:it.a):"そう思う", R=it.pair?(it.f?it.a:it.b):"そう思わない";
     const title=it.pair?`${it.t}、どちらに近い？`:it.t;
-    h+=`<div class="q${ans[i]!=null?" done":""}${it.pair?" vs":""}" id="q${i}"><p class="t">${title}</p><div class="scale" role="radiogroup" aria-label="${title}"><span class="e a">${L}</span>`;
+    h+=`<div class="q${val!=null?" done":""}${it.pair?" vs":""}" id="q${i}"><p class="t">${title}</p><div class="scale" role="radiogroup" aria-label="${title}"><span class="e a">${L}</span>`;
     for(let j=0;j<7;j++){const v=6-j;const c=it.pair?(j<3?"--agree":j>3?"--g-cr":"--mid"):(j<3?"--agree":j>3?"--disagree":"--mid");
       const al=it.pair?(j<3?`左「${L}」に${["とても","",'やや'][j]}近い`:j>3?`右「${R}」に${['やや',"","とても"][j-4]}近い`:"どちらとも言えない"):LB[j];
-      h+=`<label class="o" style="--c:var(${c})"><input type="radio" name="a${i}" id="a${i}_${v}" value="${v}" ${ans[i]===v?"checked":""} aria-label="${al}"><span style="--s:${SZ[j]}"></span></label>`}
+      h+=`<label class="o" style="--c:var(${c})"><input type="radio" name="a${i}" id="a${i}_${v}" value="${v}" ${val===v?"checked":""} aria-label="${al}"><span style="--s:${SZ[j]}"></span></label>`}
     h+=`<span class="e d"${it.pair?' style="color:var(--g-cr)"':""}>${R}</span></div></div>`;
-  }
+  
+  return h;
+}
+let xq=null,xa=[],ext=[];
+function renderPage(){
+  const st=page*PER,en=Math.min(st+PER,items.length);let h="";
+  const LB=["とてもそう思う","そう思う","ややそう思う","どちらでもない","ややそう思わない","そう思わない","まったくそう思わない"];
+  if(xq){h=`<div class="xnote"><b>最終確認</b>あなたの結果は2つの型のあいだで僅差でした。判定を確かにするため、あと${xq.length}問だけ答えてください。</div>`+xq.map((it,j)=>qHTML(it,"x"+j,xa[j])).join("")}
+  else for(let i=st;i<en;i++) h+=qHTML(items[i],i,ans[i]);
   $("#qs").innerHTML=h;
-  $("#pg").textContent=`${page+1} / ${PAGES} ページ`;
-  $("#prev").disabled=page===0;
-  $("#next").textContent=page===PAGES-1?"判定を受ける":"次へ";
+  $("#pg").textContent=xq?"最終確認":`${page+1} / ${PAGES} ページ`;
+  $("#prev").disabled=page===0||!!xq;
+  $("#next").textContent=xq||page===PAGES-1?"判定を受ける":"次へ";
   $("#hint").textContent="";prog();
 }
 function prog(){const n=ans.filter(a=>a!=null).length,p=n/items.length;$("#cnt").textContent=`${n} / ${items.length}`;$("#fill").style.width=`${p*100}%`;$("#ban").style.transform=`scaleX(${.3+.7*p}) scaleY(${.6+.4*p})`}
 const rm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth";
 $("#qs").addEventListener("change",e=>{
+  const xm=e.target.name.match(/^ax(\d+)$/);
+  if(xm){const j=+xm[1];xa[j]=+e.target.value;const el=document.getElementById("qx"+j);el.classList.remove("miss");el.classList.add("done");return}
   const m=e.target.name.match(/^a(\d+)$/);if(!m)return;
   const i=+m[1];ans[i]=+e.target.value;
   const el=document.getElementById("q"+i);el.classList.remove("miss");el.classList.add("done");
   prog();try{localStorage.setItem("bde_draft",JSON.stringify(ans))}catch(_){}
   const nx=document.getElementById("q"+(i+1));if(nx&&ans[i+1]==null)nx.scrollIntoView({behavior:rm(),block:"center"});
 });
+function finish(){
+  const r=score(ans,ext);const q=nextExtra(r,ext);
+  if(q.length){xq=q;xa=q.map(()=>null);renderPage();scrollTo(0,0);return}
+  xq=null;exitTest();renderResult(r,false);
+  try{localStorage.setItem("bde_result",JSON.stringify({a:ans,x:ext}));localStorage.removeItem("bde_draft")}catch(_){}
+  $("#result").scrollIntoView();
+}
 $("#next").onclick=()=>{
+  if(xq){const miss=xa.map((v,j)=>v==null?j:null).filter(v=>v!=null);
+    if(miss.length){miss.forEach(j=>document.getElementById("qx"+j).classList.add("miss"));$("#hint").textContent=`未回答が${miss.length}問あります`;return}
+    xq.forEach((it,j)=>ext.push({id:it.xid,v:xa[j]}));xq=null;finish();return}
   const st=page*PER,en=Math.min(st+PER,items.length),miss=[];
   for(let i=st;i<en;i++) if(ans[i]==null) miss.push(i);
   if(miss.length){miss.forEach(i=>document.getElementById("q"+i).classList.add("miss"));$("#hint").textContent=`未回答が${miss.length}問あります。逃げるのはBDEが足りない証拠です`;document.getElementById("q"+miss[0]).scrollIntoView({behavior:rm(),block:"center"});return}
   if(page<PAGES-1){page++;renderPage();scrollTo(0,0)}
-  else{exitTest();renderResult(score(ans),false);try{localStorage.setItem("bde_result",JSON.stringify(ans));localStorage.removeItem("bde_draft")}catch(_){}$("#result").scrollIntoView()}
+  else{ext=[];finish()}
 };
 $("#prev").onclick=()=>{if(page>0){page--;renderPage();scrollTo(0,0)}};
 function enterTest(){document.body.classList.add("testing");renderPage();scrollTo(0,0)}
@@ -764,6 +810,7 @@ function renderResult(r,sample){
     <div class="box"><h3>高さと燃焼度</h3><p class="lead">六角形の外にある2つの指標です。</p>${heightBar}<p class="lead" style="margin-top:-8px">${H.desc}</p>${fireBar}<p class="lead" style="margin:-8px 0 0">エネルギー空間の中で、あなたの点がどれだけ速く動いているか。速いほど命が燃えています。</p></div>
     <div class="box"><h3>伸び代</h3><p class="lead">次に点を動かす方向。</p><ul class="adv">${advice(r).map(a=>`<li><small>${a[0]}</small><b>${a[1]}</b>${a[2]}</li>`).join("")}</ul></div>
     <div class="box wide"><h3>あなたに似ている人</h3><p class="lead">動画に出演した雷獣・コムドットのメンバーのうち、${E[type].code}が強いと分析されていた人です（動画内のネタとしての分析で、本人の性格を断定するものではありません）。</p><ul class="look">${lookHTML(type)}</ul></div>
+    ${RESEARCH&&!sample?`<div class="box wide research"><h3>研究協力用の回答コード</h3><p class="lead">診断の精度を上げるための協力モードです。下のコードをコピーして、案内された方法で送ってください。名前や連絡先などの個人情報は含まれていません。</p><textarea id="rcode" readonly aria-label="回答コード">${researchCode(r)}</textarea><div class="share"><button class="pill" id="rcopy">回答コードをコピー</button><span class="toast" id="rtoast" aria-live="polite"></span></div></div>`:""}
     <div class="box wide" id="shareBox"><h3>分析シートをシェア</h3><p class="lead">登録は一切不要です。回答はこの端末の中だけで計算され、どこにも送信されません。この画面をそのままスクショして投稿してもOKです。</p>
       <div class="sheetwrap">
         <figure class="sheet"><img id="sheetImg" alt="BDE理論学会 認定 分析シート（${E[type].code}型「${T.name}」）" width="1080" height="1350"><figcaption>スマホは画像を長押し、パソコンは右クリック →「画像を保存」で保存できます。</figcaption></figure>
@@ -780,9 +827,10 @@ function renderResult(r,sample){
         </div>
       </div></div>
   </div></div>`;
+  const rc=$("#rcopy");if(rc)rc.onclick=()=>{const ta=$("#rcode");const fb=()=>{ta.select();$("#rtoast").textContent="選択しました。手動でコピーしてください"};if(navigator.clipboard)navigator.clipboard.writeText(ta.value).then(()=>{$("#rtoast").textContent="コピーしました"}).catch(fb);else fb()};
   $("#copy").onclick=()=>{const ta=$("#shareTxt");const fb=()=>{ta.select();$("#toast").textContent="テキストを選択しました。手動でコピーしてください"};
     if(navigator.clipboard) navigator.clipboard.writeText(ta.value).then(()=>{$("#toast").textContent="コピーしました"}).catch(fb); else fb()};
-  $("#retry").onclick=()=>{ans=new Array(items.length).fill(null);page=0;try{localStorage.removeItem("bde_draft")}catch(_){}enterTest()};
+  $("#retry").onclick=()=>{ans=new Array(items.length).fill(null);page=0;xq=null;ext=[];try{localStorage.removeItem("bde_draft")}catch(_){}enterTest()};
   space3d($("#space3d"),s,type,`--t-${type}`);
   makeSheet(r,sample).then(u=>{const im=$("#sheetImg");if(im)im.src=u}).catch(()=>{});
   renderGroups();
@@ -891,6 +939,11 @@ async function makeSheet(r,sample){
   t("#BDE理論",Wd-60,Ht-38,`700 30px ${MINCHO}`,kinL,"right");
   return cv.toDataURL("image/png");
 }
+let RESEARCH=false;try{RESEARCH=new URLSearchParams(location.search).get("research")==="1"}catch(_){}
+function researchCode(r){
+  const d=new Date(),day=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`;
+  return `BDE2|${day}|${ans.join("")}|${ext.map(e=>e.id+":"+e.v).join(",")}|${r.type}${r.close?"~"+r.sub:""}`;
+}
 function shareText(r){
   const {s,type,h}=r;
   return `【BDE理論学会 認定】私は${GN[type]}グループの${E[type].code}型「${TYPES[type].name}」${r.close?`（${E[r.sub].code}型とのあいだ）`:""}でした。${HEIGHT[h].label}。\nBDE ${s.D} / BCE ${s.C} / BKE ${s.K} / BOE ${s.O} / BVE ${s.V} / BHE ${s.H}\nあなたのディックの大きさも測ってみよう（登録不要）`;
@@ -915,7 +968,7 @@ theory();staticLists();
 try{const d=JSON.parse(localStorage.getItem("bde_draft")||"null");if(Array.isArray(d)&&d.length===items.length){ans=d;const f=d.findIndex(a=>a==null);page=f<0?PAGES-1:Math.floor(f/PER)}}catch(_){}
 renderPage();updGo();
 let shown=false;
-try{const r=JSON.parse(localStorage.getItem("bde_result")||"null");if(Array.isArray(r)&&r.length===items.length&&r.every(a=>a!=null)){renderResult(score(r),false);shown=true}}catch(_){}
+try{const r=JSON.parse(localStorage.getItem("bde_result")||"null");const a=Array.isArray(r)?r:r&&r.a,x=r&&r.x||[];if(Array.isArray(a)&&a.length===items.length&&a.every(v=>v!=null)){ans=a;ext=x;renderResult(score(a,x),false);shown=true}}catch(_){}
 if(!shown){const T={D:5,C:3,K:4,O:4,V:2,H:3,L:4,A:3,F:5},CT={DO:1.5,CV:0,KH:.5};const smp=items.map(it=>{if(it.gender)return 2;if(it.grp){const v=it.x===0?4:it.y===0?2:3;return it.f?6-v:v}if(it.pair){const v=Math.round(3+CT[it.k]);return it.f?6-v:v}const v=T[it.k];return it.r?6-v:v});renderResult(score(smp),true)}
 })();
 </script>
