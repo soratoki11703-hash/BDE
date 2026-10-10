@@ -367,6 +367,20 @@ body.testing .quit{display:inline-block}
 .rsat input:focus-visible+span{outline:3px solid var(--kin);outline-offset:2px}
 .rhint{grid-column:1/-1;font-size:12px;color:var(--sub)}
 
+/* 軌跡 */
+.burn{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.burn div{background:var(--mist);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.burn span{font-size:12px;color:var(--sub);font-weight:700}
+.burn b{font-size:20px;color:var(--ink)}
+.burn small{font-size:12px;color:var(--sub)}
+.tempty{font-size:14px;color:var(--sub);background:var(--mist);border-radius:8px;padding:12px 14px;margin:0 0 14px}
+.tl{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:6px}
+.tl li{display:grid;grid-template-columns:3.4em 4.2em minmax(0,1fr);gap:10px;align-items:baseline;font-size:14px;padding:6px 10px;border-radius:6px}
+.tl li.now{background:var(--kin-pale)}
+.tl time{font-family:var(--latin);color:var(--sub)}
+.tl b{font-family:var(--latin);font-weight:500}
+@media (max-width:560px){.burn{grid-template-columns:1fr}}
+
 @media (max-width:860px){
   .steps,.laws{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -690,10 +704,24 @@ $("#qs").addEventListener("change",e=>{
   prog();try{localStorage.setItem("bde_draft",JSON.stringify(ans))}catch(_){}
   const nx=document.getElementById("q"+(i+1));if(nx&&ans[i+1]==null)nx.scrollIntoView({behavior:rm(),block:"center"});
 });
+// 受けた履歴（この端末の中だけに保存）
+const HK=["D","C","K","O","V","H","L","A","F"];
+function loadHist(){try{const h=JSON.parse(localStorage.getItem("bde_history")||"[]");return Array.isArray(h)?h:[]}catch(_){return []}}
+function saveHist(r){try{const h=loadHist();h.push({d:new Date().toISOString(),s:Object.fromEntries(HK.map(k=>[k,r.s[k]])),type:r.type,close:!!r.close,sub:r.sub});localStorage.setItem("bde_history",JSON.stringify(h.slice(-30)))}catch(_){}}
+// 前回からの変化：8つのエネルギーの平均変化量と、30日あたりの速さ
+function burn(h){
+  if(h.length<2) return null;
+  const a=h[h.length-2],b=h[h.length-1];
+  const ch=["D","C","K","O","V","H","L","A"].reduce((t,k)=>t+Math.abs(b.s[k]-a.s[k]),0)/8;
+  const days=Math.max(1,(new Date(b.d)-new Date(a.d))/864e5);
+  const speed=ch/days*30;
+  const lv=speed>=15?"激しく燃えている":speed>=8?"よく燃えている":speed>=3?"ゆっくり燃えている":"ほぼ静止";
+  return {ch:Math.round(ch*10)/10,days:Math.round(days),speed:Math.round(speed*10)/10,lv,prev:a};
+}
 function finish(){
   const r=score(ans,ext);const q=nextExtra(r,ext);
   if(q.length){if(!ext.length)track("extra","追加の設問が出た");xq=q;xa=q.map(()=>null);renderPage();scrollTo(0,0);return}
-  xq=null;exitTest();renderResult(r,false);
+  xq=null;exitTest();saveHist(r);renderResult(r,false);
   track("finish","最後まで回答");track("type-"+r.type,E[r.type].code+"型");track("group-"+GN[r.type],GN[r.type]+"グループ");if(r.close)track("close","僅差の判定");
   try{localStorage.setItem("bde_result",JSON.stringify({a:ans,x:ext}));localStorage.removeItem("bde_draft")}catch(_){}
   $("#result").scrollIntoView();
@@ -732,7 +760,7 @@ const HEX=["D","K","C","V","H","O"];
 function hexPts(cx,cy,r){return HEX.map((_,i)=>{const a=-Math.PI/2+i*Math.PI/3;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]})}
 /* ---------- 3Dエネルギー空間（六角形の平面＋高さの軸） ---------- */
 let space3dStop=null;
-function space3d(cv,s,type,typeColor){
+function space3d(cv,s,type,typeColor,hist=[]){
   if(space3dStop) space3dStop();
   const ctx=cv.getContext("2d"), css=getComputedStyle(document.documentElement);
   const col=n=>css.getPropertyValue(n).trim();
@@ -742,7 +770,10 @@ function space3d(cv,s,type,typeColor){
   const tot=HEX.reduce((a,k)=>a+s[k],0)||1;
   let px=0,py=0;HEX.forEach((k,i)=>{px+=dirs[i][0]*s[k]/tot;py+=dirs[i][1]*s[k]/tot});
   px=0;py=0; // 頂点は中心の縦軸上（高さ＝BLE−BAE）
-  const VMAX=40; // 縦軸は高さ（BLE−BAE）の±40を上下の頂点にして強調
+  const VMAX=40;
+  // 軌跡：各回の点＝エネルギーの重心（強い方向へ寄る）と高さ
+  const posOf=e=>{const t=HEX.reduce((a,k)=>a+e[k],0)||1;let x=0,y=0;HEX.forEach((k,i)=>{x+=dirs[i][0]*e[k]/t;y+=dirs[i][1]*e[k]/t});const m=Math.hypot(x,y),f=Math.min(1,m*3.2)/(m||1);return [x*f,y*f,Math.max(-1.15,Math.min(1.15,(e.L-e.A)/VMAX))]};
+  const trail=hist.map(h=>posOf(h.s)); // 縦軸は高さ（BLE−BAE）の±40を上下の頂点にして強調
   const pz=Math.max(-1.15,Math.min(1.15,(s.L-s.A)/VMAX));
   let yaw=-0.5,pitch=0.36,drag=null,raf=0,W=0,Hh=0,R=0,dpr=1;
   const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -785,6 +816,10 @@ function space3d(cv,s,type,typeColor){
     ctx.beginPath();ctx.arc(pt[0],pt[1],13,0,Math.PI*2);ctx.fillStyle=aka+"33";ctx.fill();
     ctx.beginPath();ctx.arc(pt[0],pt[1],7,0,Math.PI*2);ctx.fillStyle=aka;ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();
     const hv=s.L-s.A;
+    if(trail.length>1){const T=trail.map(q=>P(q[0],q[1],q[2]));
+      for(let i=1;i<T.length;i++){const al=Math.round(60+195*i/(T.length-1)).toString(16).padStart(2,"0");seg(T[i-1],T[i],kin+al,2.5)}
+      T.forEach((q,i)=>{ctx.beginPath();ctx.arc(q[0],q[1],i===T.length-1?6:4,0,Math.PI*2);ctx.fillStyle=i===T.length-1?kin:kin+"99";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=1.5;ctx.stroke()});
+      txt("前回",[T[T.length-2][0],T[T.length-2][1]+14],sub,`700 11px ${F}`);txt("今回",[T[T.length-1][0],T[T.length-1][1]+14],kin,`700 11px ${F}`)}
     txt(`あなた（高さ ${hv>0?"+":""}${hv}）`,[pt[0]+12,pt[1]-14],aka,`700 13px ${F}`,"left");
   }
   function loop(){if(!drag&&!reduce) yaw+=0.004;draw();raf=requestAnimationFrame(loop)}
@@ -824,6 +859,9 @@ function renderResult(r,sample){
     <div class="box"><h3>エネルギー空間（3D）</h3><p class="lead">型の色の六角錐が「あなたの形」です。底面の六角形が6つのエネルギー、頂点（赤い点）の高さがBLE−BAEで、上ならリップ寄り、下ならアナル寄り。差が見えやすいように、縦は±40を上下の端にして強調しています。灰色の枠は満点の形です。ドラッグで回せます。</p><canvas class="space" id="space3d" role="img" aria-label="エネルギー空間の立体図。${E[type].code}がいちばん強く、高さは${H.label}"></canvas></div>
     <div class="box"><h3>パラメーター</h3><p class="lead">0〜100で表示しています。真ん中の線が50、色の付いた行があなたの型です。</p><div class="params">${rows}</div></div>
     <div class="box"><h3>高さと燃焼度</h3><p class="lead">六角形の外にある2つの指標です。</p>${heightBar}<p class="lead" style="margin-top:-8px">${H.desc}</p>${fireBar}<p class="lead" style="margin:-8px 0 0">エネルギー空間の中で、あなたの点がどれだけ速く動いているか。速いほど命が燃えています。</p></div>
+    ${(()=>{if(sample)return "";const h=loadHist(),b=burn(h);
+      const rows=h.slice(-8).reverse().map((e,i)=>{const d=new Date(e.d);return `<li${i===0?' class="now"':""}><time>${d.getMonth()+1}/${d.getDate()}</time><b style="color:var(--t-${e.type})">${E[e.type].code}型</b><span>${TYPES[e.type].name}${e.close?`（${E[e.sub].code}型とのあいだ）`:""}</span></li>`}).join("");
+      return `<div class="box wide traj"><h3>あなたの軌跡（命の燃やし方）</h3><p class="lead">受けるたびに、結果がこの端末の中だけに記録されます。3Dの図の金色の線が、これまでの点の動きです。</p>${b?`<div class="burn"><div><span>前回（${new Date(b.prev.d).getMonth()+1}/${new Date(b.prev.d).getDate()}）から</span><b>${b.days}日</b></div><div><span>エネルギーの変化</span><b>平均 ${b.ch}点</b></div><div><span>実測の燃焼度</span><b>${b.lv}</b><small>30日あたり${b.speed}点の変化</small></div></div>`:`<p class="tempty">${h.length?"まだ1回分の記録しかありません。":"まだ記録がありません。"}日をあけてもう一度受けると、前回からどれだけ動いたか（実測の燃焼度）が分かります。</p>`}<ol class="tl">${rows}</ol>${h.length?`<button class="pill ghost" id="clearHist">記録を消す</button>`:""}</div>`})()}
     <div class="box"><h3>伸び代</h3><p class="lead">次に点を動かす方向。</p><ul class="adv">${advice(r).map(a=>`<li><small>${a[0]}</small><b>${a[1]}</b>${a[2]}</li>`).join("")}</ul></div>
     <div class="box wide"><h3>あなたに似ている人</h3><p class="lead">動画に出演した雷獣・コムドットのメンバーのうち、${E[type].code}が強いと分析されていた人です（動画内のネタとしての分析で、本人の性格を断定するものではありません）。</p><ul class="look">${lookHTML(type)}</ul></div>
     ${RESEARCH&&!sample?`<div class="box wide research"><h3>研究協力用の回答コード</h3><p class="lead">診断の精度を上げるための協力モードです。ニックネームと納得度を入れてから、下のコードをコピーして、頼まれた相手にLINEなどでそのまま送ってください。2回目も同じニックネームでお願いします。</p><div class="rform"><label for="rnick">ニックネーム</label><input id="rnick" maxlength="20" placeholder="例：たけし"><span class="rl">この型は自分に当てはまる？</span><div class="rsat" role="radiogroup" aria-label="納得度">${[1,2,3,4,5].map(v=>`<label><input type="radio" name="rsat" value="${v}" aria-label="${v}"><span>${v}</span></label>`).join("")}</div><span class="rhint">1 まったく当てはまらない ／ 5 とても当てはまる</span></div><textarea id="rcode" readonly aria-label="回答コード">${researchCode(r)}</textarea><div class="share"><button class="pill" id="rcopy">回答コードをコピー</button><span class="toast" id="rtoast" aria-live="polite"></span></div></div>`:""}
@@ -845,11 +883,12 @@ function renderResult(r,sample){
   </div></div>`;
   const upd=()=>{const t=$("#rcode");if(t)t.value=researchCode(r)};const rn=$("#rnick");if(rn){try{rn.value=localStorage.getItem("bde_nick")||""}catch(_){}rn.oninput=()=>{try{localStorage.setItem("bde_nick",rn.value)}catch(_){}upd()};document.querySelectorAll("input[name=rsat]").forEach(x=>x.onchange=upd);upd()}
   document.querySelectorAll("[data-ev]").forEach(a=>a.addEventListener("click",()=>track(a.dataset.ev,a.textContent)));
+  const ch=$("#clearHist");if(ch)ch.onclick=()=>{try{localStorage.removeItem("bde_history")}catch(_){}renderResult(r,sample)};
   const rc=$("#rcopy");if(rc)rc.onclick=()=>{track("research-copy","研究協力コードをコピー");const ta=$("#rcode");const fb=()=>{ta.select();$("#rtoast").textContent="選択しました。手動でコピーしてください"};if(navigator.clipboard)navigator.clipboard.writeText(ta.value).then(()=>{$("#rtoast").textContent="コピーしました"}).catch(fb);else fb()};
   $("#copy").onclick=()=>{track("copy-text","シェア文をコピー");const ta=$("#shareTxt");const fb=()=>{ta.select();$("#toast").textContent="テキストを選択しました。手動でコピーしてください"};
     if(navigator.clipboard) navigator.clipboard.writeText(ta.value).then(()=>{$("#toast").textContent="コピーしました"}).catch(fb); else fb()};
   $("#retry").onclick=()=>{track("retry","もう一度受ける");started=true;ans=new Array(items.length).fill(null);page=0;xq=null;ext=[];try{localStorage.removeItem("bde_draft")}catch(_){}enterTest()};
-  space3d($("#space3d"),s,type,`--t-${type}`);
+  space3d($("#space3d"),s,type,`--t-${type}`,sample?[]:loadHist());
   makeSheet(r,sample).then(u=>{const im=$("#sheetImg");if(im)im.src=u}).catch(()=>{});
   renderGroups();
 }
