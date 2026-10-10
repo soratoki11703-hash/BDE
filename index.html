@@ -354,6 +354,18 @@ body.testing .quit{display:inline-block}
 .box.research{border:2px dashed var(--aka)}
 .box.research textarea{width:100%;min-height:70px;font:12px/1.5 ui-monospace,Menlo,monospace;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--mist);color:var(--ink);margin-bottom:10px;word-break:break-all}
 
+.rform{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:center;margin-bottom:12px;max-width:520px}
+.rform label[for]{font-weight:700;font-size:14px}
+.rform input#rnick{font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}
+.rform .rl{grid-column:1/-1;font-weight:700;font-size:14px}
+.rsat{grid-column:1/-1;display:flex;gap:8px}
+.rsat label{position:relative}
+.rsat input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.rsat span{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:2px solid var(--line);font-family:var(--latin);font-size:17px;background:var(--paper)}
+.rsat input:checked+span{background:var(--aka);border-color:var(--aka);color:#fff}
+.rsat input:focus-visible+span{outline:3px solid var(--kin);outline-offset:2px}
+.rhint{grid-column:1/-1;font-size:12px;color:var(--sub)}
+
 @media (max-width:860px){
   .steps,.laws{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -810,7 +822,7 @@ function renderResult(r,sample){
     <div class="box"><h3>高さと燃焼度</h3><p class="lead">六角形の外にある2つの指標です。</p>${heightBar}<p class="lead" style="margin-top:-8px">${H.desc}</p>${fireBar}<p class="lead" style="margin:-8px 0 0">エネルギー空間の中で、あなたの点がどれだけ速く動いているか。速いほど命が燃えています。</p></div>
     <div class="box"><h3>伸び代</h3><p class="lead">次に点を動かす方向。</p><ul class="adv">${advice(r).map(a=>`<li><small>${a[0]}</small><b>${a[1]}</b>${a[2]}</li>`).join("")}</ul></div>
     <div class="box wide"><h3>あなたに似ている人</h3><p class="lead">動画に出演した雷獣・コムドットのメンバーのうち、${E[type].code}が強いと分析されていた人です（動画内のネタとしての分析で、本人の性格を断定するものではありません）。</p><ul class="look">${lookHTML(type)}</ul></div>
-    ${RESEARCH&&!sample?`<div class="box wide research"><h3>研究協力用の回答コード</h3><p class="lead">診断の精度を上げるための協力モードです。下のコードをコピーして、案内された方法で送ってください。名前や連絡先などの個人情報は含まれていません。</p><textarea id="rcode" readonly aria-label="回答コード">${researchCode(r)}</textarea><div class="share"><button class="pill" id="rcopy">回答コードをコピー</button><span class="toast" id="rtoast" aria-live="polite"></span></div></div>`:""}
+    ${RESEARCH&&!sample?`<div class="box wide research"><h3>研究協力用の回答コード</h3><p class="lead">診断の精度を上げるための協力モードです。ニックネームと納得度を入れてから、下のコードをコピーして、頼まれた相手にLINEなどでそのまま送ってください。2回目も同じニックネームでお願いします。</p><div class="rform"><label for="rnick">ニックネーム</label><input id="rnick" maxlength="20" placeholder="例：たけし"><span class="rl">この型は自分に当てはまる？</span><div class="rsat" role="radiogroup" aria-label="納得度">${[1,2,3,4,5].map(v=>`<label><input type="radio" name="rsat" value="${v}" aria-label="${v}"><span>${v}</span></label>`).join("")}</div><span class="rhint">1 まったく当てはまらない ／ 5 とても当てはまる</span></div><textarea id="rcode" readonly aria-label="回答コード">${researchCode(r)}</textarea><div class="share"><button class="pill" id="rcopy">回答コードをコピー</button><span class="toast" id="rtoast" aria-live="polite"></span></div></div>`:""}
     <div class="box wide" id="shareBox"><h3>分析シートをシェア</h3><p class="lead">登録は一切不要です。回答はこの端末の中だけで計算され、どこにも送信されません。この画面をそのままスクショして投稿してもOKです。</p>
       <div class="sheetwrap">
         <figure class="sheet"><img id="sheetImg" alt="BDE理論学会 認定 分析シート（${E[type].code}型「${T.name}」）" width="1080" height="1350"><figcaption>スマホは画像を長押し、パソコンは右クリック →「画像を保存」で保存できます。</figcaption></figure>
@@ -827,6 +839,7 @@ function renderResult(r,sample){
         </div>
       </div></div>
   </div></div>`;
+  const upd=()=>{const t=$("#rcode");if(t)t.value=researchCode(r)};const rn=$("#rnick");if(rn){try{rn.value=localStorage.getItem("bde_nick")||""}catch(_){}rn.oninput=()=>{try{localStorage.setItem("bde_nick",rn.value)}catch(_){}upd()};document.querySelectorAll("input[name=rsat]").forEach(x=>x.onchange=upd);upd()}
   const rc=$("#rcopy");if(rc)rc.onclick=()=>{const ta=$("#rcode");const fb=()=>{ta.select();$("#rtoast").textContent="選択しました。手動でコピーしてください"};if(navigator.clipboard)navigator.clipboard.writeText(ta.value).then(()=>{$("#rtoast").textContent="コピーしました"}).catch(fb);else fb()};
   $("#copy").onclick=()=>{const ta=$("#shareTxt");const fb=()=>{ta.select();$("#toast").textContent="テキストを選択しました。手動でコピーしてください"};
     if(navigator.clipboard) navigator.clipboard.writeText(ta.value).then(()=>{$("#toast").textContent="コピーしました"}).catch(fb); else fb()};
@@ -942,7 +955,9 @@ async function makeSheet(r,sample){
 let RESEARCH=false;try{RESEARCH=new URLSearchParams(location.search).get("research")==="1"}catch(_){}
 function researchCode(r){
   const d=new Date(),day=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}`;
-  return `BDE2|${day}|${ans.join("")}|${ext.map(e=>e.id+":"+e.v).join(",")}|${r.type}${r.close?"~"+r.sub:""}`;
+  const nick=encodeURIComponent((document.getElementById("rnick")?.value||"").trim()||"名無し");
+  const sat=document.querySelector("input[name=rsat]:checked")?.value||"-";
+  return `BDE3|${nick}|${day}|${ans.join("")}|${ext.map(e=>e.id+":"+e.v).join(",")}|${r.type}${r.close?"~"+r.sub:""}|${sat}`;
 }
 function shareText(r){
   const {s,type,h}=r;
