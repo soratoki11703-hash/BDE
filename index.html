@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="雷獣ベテランちのBDE理論を45問で測定。6つの型と8つのエネルギー、命の燃焼度で判定する非公式のパロディ診断です。登録不要・無料。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BDE理論 診断｜BDE理論学会（自称）">
+<meta property="og:description" content="やっと、自分のディックの大きさが分かりました。45問・登録不要の非公式パロディ診断。">
+<meta property="og:url" content="https://soratoki11703-hash.github.io/BDE/">
+<meta property="og:image" content="https://soratoki11703-hash.github.io/BDE/images/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>BDE理論 診断</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@500&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap">
+<style>
+/* Layout: 「BDE理論学会」の公式（自称）診断ページ。黒×金（雷獣）と赤（コムドット）。
+   黒いナビとヒーロー → 金屏風のようなイラスト → 生成りの紙面で試験・結果・タイプ・講義ノート。単一テーマ */
+:root{
+  color-scheme:light;
+  --kuro:#141110; --kuro2:#221d19; --kin:#c08a1e; --kin-l:#dfbf6c; --kin-pale:#f4e8c8;
+  --aka:#b3121f; --aka-d:#720f17; --aka-pale:#f7e3df;
+  --bg:#faf6ec; --paper:#fffdf7; --ink:#1d1a17; --sub:#6b6256; --faint:#a59a86; --line:#e6dcc4; --mist:#f3ecdb;
+  --agree:#b3121f; --disagree:#8a6a1d; --mid:#b5ab98;
+  /* 高さ（BLE↔BAE）と燃焼度 */
+  --g-cr:#2f5d8a; --g-cr-d:#2f5d8a; --g-dr:#c08a1e; --g-dr-d:#8a6a1d;
+  /* 6タイプの色（イラストの色と合わせる） */
+  --t-D:#7a4f99; --t-D-bg:#efe6f4;
+  --t-O:#b8466f; --t-O-bg:#f8e5ec;
+  --t-C:#3f6db3; --t-C-bg:#e5ecf8;
+  --t-V:#2b8f86; --t-V-bg:#e0f1ef;
+  --t-K:#2d8a5f; --t-K-bg:#e3f2e9;
+  --t-H:#b88310; --t-H-bg:#f8eed2;
+  --font:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+  --display:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
+  --latin:"Jost","Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.8;margin:0}
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:700;font-feature-settings:"palt"}
+h1,h2,.disp{font-family:var(--display)}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--kin);outline-offset:3px}
+.in{max-width:1100px;margin:0 auto;padding-inline:20px}
+.disp{font-family:var(--display);font-weight:700;letter-spacing:0}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--kuro);border-bottom:1px solid #3a2f22}
+.nav .in{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;color:var(--kin-l);text-decoration:none;white-space:nowrap;line-height:1.1}
+.logo svg{width:30px;height:30px}
+.logo b{font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:0}
+.logo small{font-family:var(--latin);display:block;font-size:10px;color:var(--faint);letter-spacing:.1em}
+.nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-size:14px;color:#cfc3a8}
+.nav ul a{text-decoration:none}
+.nav ul a:hover{color:var(--kin-l)}
+
+/* hero */
+.hero{background:var(--kuro);color:#efe6d2;text-align:center;padding-top:52px;position:relative}
+.seal{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--aka);padding:3px 12px;border-radius:3px;letter-spacing:0}
+.hero h1{font-family:var(--display);font-weight:700;font-size:min(44px,calc((100vw - 40px) / 22));white-space:nowrap;line-height:1.45;color:var(--kin-l);margin-top:18px}
+.hero h1 em{font-style:normal;color:#fff;background:linear-gradient(transparent 62%,var(--aka) 62%)}
+.sp{display:none}
+@media (max-width:640px){.hero h1{white-space:normal;font-size:clamp(26px,8.4vw,36px);line-height:1.5}.sp{display:inline}}
+.hero .who{font-size:clamp(14px,1.6vw,17px);color:#bfb39a;margin-top:10px}
+.hero p{color:#d8ccb2;font-size:clamp(15px,1.8vw,17px);max-width:34em;margin:20px auto 28px}
+.pill{display:inline-flex;align-items:center;gap:12px;border:0;border-radius:999px;background:var(--aka);color:#fff;font-weight:700;font-size:16px;padding:14px 34px;transition:filter .15s,transform .15s;}
+.pill:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+.pill svg{width:18px;height:18px}
+.pill.green{background:var(--aka)}
+.pill.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.pill:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.hero .fine{display:block;font-size:12px;color:var(--faint);margin-top:12px}
+.heroimg{display:block;width:calc(100% - 32px);max-width:1040px;height:auto;margin:36px auto 0;border-radius:12px;border:2px solid var(--kin)}
+.wave{display:block;width:100%;height:60px}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding-block:28px 6px}
+.stat{text-align:center;padding:16px 8px;border-top:3px solid var(--kin)}
+.stat b{font-family:var(--latin);display:block;font-weight:700;font-size:clamp(26px,3.6vw,34px);color:var(--aka);line-height:1.3}
+.stat span{font-size:13px;color:var(--sub)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-block:20px 24px}
+.step{border-radius:10px;background:var(--kuro);color:#e9dfc8;padding:22px 22px 18px;border:1px solid #3a2f22}
+.step .tag{display:inline-block;font-size:12px;font-weight:700;color:var(--kuro);background:var(--kin-l);border-radius:3px;padding:1px 10px;margin-bottom:10px}
+.step h3{font-family:var(--display);font-weight:700;font-size:21px;color:var(--kin-l);margin-bottom:6px}
+.step p{margin:0;font-size:14px;color:#bfb39a}
+
+/* test */
+#test{padding-block:40px 30px}
+.thead{text-align:center;margin-bottom:12px}
+.thead h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,4vw,36px)}
+.thead p{color:var(--sub);margin:6px 0 0;font-size:14px}
+.progress{position:sticky;top:calc(env(safe-area-inset-top,0px) + 60px);z-index:5;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line)}
+.progress .row{display:flex;align-items:center;gap:14px;max-width:760px;margin:0 auto}
+.progress .lbl{font-size:12px;font-weight:700;color:var(--sub);white-space:nowrap}
+.progress .bar{flex:1;height:10px;border-radius:99px;background:var(--line);position:relative}
+.progress .fill{height:100%;width:0;background:linear-gradient(90deg,var(--kin),#f1cf3b);border-radius:99px;transition:width .35s;position:relative}
+.progress .ban{width:46px;height:22px;flex:none;transform-origin:left center;transition:transform .35s}
+.progress .ban svg{width:100%;height:100%;display:block}
+.progress .n{font-family:var(--latin);font-size:13px;color:var(--sub);font-variant-numeric:tabular-nums;min-width:4.5em;text-align:right}
+.q{max-width:860px;margin:0 auto;padding-block:30px;border-bottom:1px solid var(--line);text-align:center;transition:opacity .25s}
+.q.done{opacity:.4}
+.q.done:hover,.q.done:focus-within{opacity:1}
+.q .t{font-size:clamp(17px,2.2vw,21px);font-weight:700;color:var(--ink);margin:0 auto 20px;max-width:30em}
+.q.miss .t{color:var(--aka)}
+.scale{display:flex;align-items:center;justify-content:center;gap:clamp(6px,2vw,22px)}
+.scale .e{font-size:clamp(13px,1.6vw,17px);font-weight:700;width:6.5em}
+.scale .e.a{color:var(--agree);text-align:right}
+.scale .e.d{color:var(--disagree);text-align:left}
+.o{position:relative;display:inline-flex;flex:none}
+.o input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.o span{display:block;width:calc(var(--s) * 1px);height:calc(var(--s) * 1px);border-radius:50%;border:2.5px solid var(--c);transition:background .15s}
+.o:hover span{background:color-mix(in srgb,var(--c) 25%,transparent)}
+.o input:checked+span{background:var(--c)}
+.o input:checked+span::after{content:"";display:block;width:35%;height:20%;margin:34% auto 0;border:solid #fff;border-width:0 0 3px 3px;transform:rotate(-45deg)}
+.o input:focus-visible+span{outline:3px solid var(--kin);outline-offset:3px}
+.tnav{display:flex;justify-content:center;gap:14px;margin-top:32px;flex-wrap:wrap}
+.hint{text-align:center;color:var(--aka);font-size:14px;min-height:1.6em;margin-top:14px;font-weight:700}
+
+/* types */
+.groups{padding-bottom:20px}
+.grp{background:var(--gbg);position:relative}
+.grp .wv{display:block;width:100%;height:46px;background:var(--bg)}
+.grp .in{padding-block:6px 30px}
+.grp h3{text-align:center;font-family:var(--display);font-weight:700;font-size:clamp(40px,8vw,76px);color:var(--paper);letter-spacing:0;line-height:1;margin-bottom:-12px;position:relative}
+.grp .gsub{text-align:center;color:var(--ink);font-weight:700;font-size:14px;position:relative;margin-bottom:10px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;position:relative;max-width:760px;margin:0 auto}
+.card{text-align:center;padding:4px 6px 10px;min-width:0}
+.card img{display:block;width:100%;max-width:240px;height:auto;margin:0 auto;mix-blend-mode:multiply}
+.card .nm{color:var(--gc);font-weight:700;font-size:19px;margin-top:2px}
+.card .cd{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:0}
+.card .ln{font-size:14px;max-width:24em;margin-inline:auto;color:var(--sub);line-height:1.6;margin-top:4px}
+.card.me .cd::after{content:"あなた";font-family:var(--font);font-weight:700;margin-left:6px;font-size:11px;background:var(--aka);color:#fff;border-radius:3px;padding:1px 8px;letter-spacing:0}
+
+/* result */
+#result{padding-bottom:40px}
+.rhead{background:var(--gbg);padding-top:40px;position:relative}
+.rhead .in{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;position:relative}
+.rhead .badge{display:inline-block;font-size:12px;font-weight:700;background:var(--kuro);color:var(--kin-l);border-radius:3px;padding:2px 12px;margin-bottom:10px}
+.rhead .you{font-size:15px;color:var(--sub)}
+.rhead h2{font-family:var(--display);font-weight:700;font-size:clamp(40px,7.5vw,72px);color:var(--gc);line-height:1.2}
+.rhead .code{font-family:var(--latin);font-family:var(--display);font-weight:700;font-size:clamp(20px,3vw,26px);letter-spacing:0}
+.rhead .code small{font-family:var(--font);font-weight:700;font-size:.6em;letter-spacing:0;color:var(--sub);margin-left:8px}
+.rhead .catch{font-size:16px;margin:10px auto 0;max-width:30em}
+.rhead img.fig{display:block;width:100%;max-width:860px;height:auto;margin-top:10px;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(closest-side,#000 86%,transparent);mask-image:radial-gradient(closest-side,#000 86%,transparent)}
+.hanko{position:absolute;top:6px;right:max(20px,calc(50% - 400px));width:104px;height:104px;border:4px solid var(--aka);border-radius:50%;color:var(--aka);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-14deg);font-weight:700;line-height:1.15;opacity:.88;font-size:12px;letter-spacing:0}
+.hanko b{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.1em;border-block:2px solid var(--aka);padding-inline:4px;margin-block:2px}
+.rbody{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;padding-block:30px}
+.box{border-radius:10px;background:var(--paper);border:1px solid var(--line);padding:26px 26px 22px;min-width:0}
+.box.wide{grid-column:1/-1}
+.box h3{font-size:20px;margin-bottom:4px}
+.box .lead{font-size:13.5px;color:var(--sub);margin:0 0 18px}
+.desc{font-size:16px;margin:0;max-width:52em}
+.trait{margin-bottom:22px}
+.trait .top{font-size:15px;font-weight:700;margin-bottom:6px}
+.trait .top b{color:var(--tc)}
+.trait .bar{position:relative;height:12px;border-radius:99px;background:color-mix(in srgb,var(--tc) 20%,#fff)}
+.trait .bar i{position:absolute;top:0;bottom:0;border-radius:99px;background:var(--tc)}
+.trait .bar u{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;background:#fff;border:4px solid var(--tc);transform:translate(-50%,-50%)}
+.trait .ends{display:flex;justify-content:space-between;font-size:13px;color:var(--sub);margin-top:6px}
+.trait .ends .on{color:var(--tc);font-weight:700}
+.space{display:block;width:100%;cursor:grab;touch-action:pan-y}
+.space:active{cursor:grabbing}
+.radar{display:flex;gap:12px;align-items:stretch}
+.radar svg{flex:1;min-width:0;height:auto}
+.vg{width:58px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;font-weight:700}
+.vg .col{flex:1;width:12px;border-radius:99px;background:linear-gradient(var(--g-cr),var(--line) 50%,var(--g-dr));position:relative;min-height:170px}
+.vg .col u{position:absolute;left:50%;width:22px;height:22px;border-radius:50%;background:#fff;border:4px solid var(--ink);transform:translate(-50%,-50%)}
+table.p{width:100%;border-collapse:collapse;font-size:14px}
+table.p td{padding:7px 0;border-bottom:1px solid var(--line)}
+table.p td.k{font-family:var(--latin);font-weight:700;width:3.6em;color:var(--pc)}
+table.p td.j{color:var(--sub);font-size:13px;width:8.2em}
+table.p td.v{font-family:var(--latin);text-align:right;width:2.6em;font-weight:700;font-variant-numeric:tabular-nums}
+table.p .b{height:8px;border-radius:99px;background:var(--line);margin-inline:10px;overflow:hidden}
+table.p .b i{display:block;height:100%;background:var(--pc);border-radius:99px}
+.adv{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.adv li{border-left:4px solid var(--aka);background:var(--mist);border-radius:0 8px 8px 0;padding:12px 16px;font-size:14.5px}
+.adv li b{display:block;font-size:15.5px}
+.adv li small{font-size:11.5px;font-weight:700;color:var(--aka);display:block}
+.share{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.share textarea{flex:1 1 100%;min-height:104px;font:13px/1.6 ui-monospace,Menlo,monospace;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--mist);color:var(--ink);resize:vertical}
+.toast{font-size:14px;color:var(--aka);font-weight:700}
+
+/* theory */
+#theory{padding-block:30px 10px}
+.th{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.th .it{border-radius:10px;background:var(--paper);border:1px solid var(--line);padding:18px;min-width:0}
+.th .it .c{font-family:var(--latin);font-family:var(--display);font-weight:700;font-size:22px;color:var(--pc)}
+.th .it .j{font-weight:700;font-size:14px}
+.th .it p{font-size:13.5px;color:var(--sub);margin:6px 0 8px;line-height:1.65}
+.th .it a{font-size:12.5px;color:var(--aka);font-weight:700;text-decoration:none}
+.laws{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:22px}
+.laws div{font-size:14px;color:var(--sub);border-left:3px solid var(--kin);padding-left:14px}
+.laws b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
+.sech{text-align:center;margin-bottom:22px}
+.sech h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,4vw,36px)}
+.sech p{color:var(--sub);margin:4px 0 0;font-size:14px}
+footer{background:var(--kuro);color:#bfb39a;margin-top:50px;padding-block:30px;font-size:13px}
+footer b{color:var(--kin-l);font-family:var(--display);font-weight:700;font-size:16px;display:block;margin-bottom:6px}
+footer a{color:var(--kin-l)}
+
+/* 似ている人 */
+.look{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.look li{display:flex;gap:12px;align-items:flex-start;background:var(--mist);border-radius:8px;padding:12px 14px;min-width:0}
+.look .av{flex:none;width:40px;height:40px;border-radius:50%;background:var(--gc);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:17px}
+.look b{display:block;font-size:15px;line-height:1.4}
+.look span{display:block;font-size:13px;color:var(--sub);line-height:1.5}
+.look a{font-size:12px;font-weight:700;color:var(--aka);text-decoration:none}
+.lipnote{font-size:13px;color:var(--sub);margin:-8px 0 18px}
+.lipnote a{color:var(--aka);font-weight:700;text-decoration:none}
+
+/* 参考資料 */
+#source{padding-block:40px 10px}
+.src{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px}
+.src .thumb{display:block;position:relative;border-radius:8px;overflow:hidden;border:3px solid var(--kuro)}
+.src .thumb .ph{display:flex;flex-direction:column;justify-content:flex-end;aspect-ratio:16/9;background:var(--kuro);color:var(--kin-l);padding:14px 16px;text-decoration:none}
+.src .thumb .ph b{font-family:var(--display);font-size:22px}
+.src .thumb .ph small{font-size:12px;color:#bfb39a}
+.src .thumb .play{position:absolute;inset:0;display:grid;place-items:center}
+.src .thumb .play i{width:64px;height:44px;border-radius:12px;background:var(--aka);display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.src .thumb .play i::after{content:"";border-left:16px solid #fff;border-block:10px solid transparent;margin-left:4px}
+.src h3{font-size:19px;line-height:1.5}
+.src h3 a{text-decoration:none}
+.src h3 a:hover{text-decoration:underline}
+.src .meta{font-size:13px;color:var(--sub);margin:4px 0 14px}
+.chap{list-style:none;margin:0 0 16px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px;font-size:14px}
+.chap a{display:flex;gap:10px;text-decoration:none;padding:4px 0;border-bottom:1px dashed var(--line)}
+.chap a:hover b{text-decoration:underline}
+.chap time{font-family:var(--latin);font-variant-numeric:tabular-nums;color:var(--aka);font-weight:700;min-width:3.6em}
+.book{font-size:14px;background:var(--kin-pale);border-radius:8px;padding:10px 14px}
+.book a{color:var(--aka);font-weight:700}
+
+/* 提唱者 */
+#author{padding-block:40px 10px}
+.prof{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:center;background:var(--kuro);color:#e9dfc8;border-radius:14px;padding:30px;border:1px solid #3a2f22}
+.prof .face{width:120px;height:120px}
+.prof .role{display:inline-block;font-size:12px;font-weight:700;background:var(--aka);color:#fff;padding:2px 10px;border-radius:3px}
+.prof h3{font-family:var(--display);font-weight:700;font-size:clamp(26px,4vw,34px);color:var(--kin-l);margin:6px 0 2px}
+.prof .aff{font-size:14px;color:#bfb39a}
+.prof p{font-size:15px;margin:12px 0 14px;color:#d8ccb2}
+.prof .links{display:flex;gap:10px;flex-wrap:wrap}
+.prof .links a{font-size:13px;font-weight:700;text-decoration:none;color:var(--kuro);background:var(--kin-l);padding:6px 14px;border-radius:999px}
+.co{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.co li{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.co b{display:block;font-size:15px}
+.co span{display:block;font-size:13px;color:var(--sub);line-height:1.55;margin:2px 0 4px}
+.co a{font-size:12px;font-weight:700;color:var(--aka);text-decoration:none}
+.fineprint{font-size:12px;color:var(--faint);margin-top:12px}
+@media (max-width:760px){.src,.prof{grid-template-columns:1fr}.chap{grid-template-columns:1fr}.prof .face{width:90px;height:90px}}
+
+/* 6つの型：カード */
+.tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;padding-bottom:10px}
+.tcard{background:var(--paper);border-radius:10px;border-top:4px solid var(--tc);box-shadow:0 4px 18px rgba(29,26,23,.08);overflow:hidden;display:flex;flex-direction:column;min-width:0;position:relative}
+.tcard .art{background:linear-gradient(var(--tbg) 55%,var(--paper));display:flex;justify-content:center;padding-top:14px}
+.tcard .art img{display:block;width:72%;max-width:230px;height:auto;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(closest-side,#000 82%,transparent);mask-image:radial-gradient(closest-side,#000 82%,transparent)}
+.tcard .body{padding:6px 22px 22px}
+.tcard .tag{display:inline-block;font-size:12px;font-weight:700;color:var(--tc);background:var(--tbg);border-radius:999px;padding:2px 12px;margin-bottom:8px}
+.tcard h3{font-family:var(--display);font-weight:700;font-size:22px;color:var(--ink);margin-bottom:4px}
+.tcard .catch{font-size:14px;font-weight:700;color:var(--tc);margin:0 0 6px}
+.tcard p{font-size:14px;color:var(--sub);margin:0;line-height:1.7}
+.tcard.me{box-shadow:0 0 0 3px var(--aka),0 6px 22px rgba(29,26,23,.14)}
+.tcard .you{position:absolute;top:12px;left:12px;font-size:12px;font-weight:700;background:var(--aka);color:#fff;border-radius:3px;padding:2px 10px}
+@media (max-width:900px){.tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.tgrid{grid-template-columns:1fr}}
+
+/* 分析シート */
+.sheetwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;align-items:start}
+.sheet{margin:0}
+.sheet img{display:block;width:100%;height:auto;aspect-ratio:1080/1350;border-radius:10px;border:1px solid var(--line);box-shadow:0 8px 26px rgba(29,26,23,.12);background:var(--mist)}
+.sheet figcaption{font-size:12.5px;color:var(--sub);margin-top:8px;text-align:center}
+.snsbtns{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.sns{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px;text-decoration:none;color:#fff;border-radius:999px;padding:13px 20px;transition:filter .15s}
+.sns:hover{filter:brightness(1.12)}
+.sns.x{background:#111}
+.sns.line{background:#06c755}
+.sns.threads{background:#3a3a3a}
+.sheetside textarea{width:100%;min-height:120px;font:13px/1.6 ui-monospace,Menlo,monospace;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--mist);color:var(--ink);resize:vertical;margin-bottom:10px}
+@media (max-width:760px){.sheetwrap{grid-template-columns:1fr}}
+
+/* 試験中は試験以外を隠す */
+#test{display:none}
+body.testing #test{display:block}
+body.testing > :not(.nav):not(#test):not(script){display:none!important}
+body.testing .nav ul{display:none}
+.quit{display:none;border:1px solid #5a4a30;background:transparent;color:#cfc3a8;border-radius:999px;padding:6px 16px;font-size:13px;font-weight:700}
+.quit:hover{color:var(--kin-l);border-color:var(--kin)}
+body.testing .quit{display:inline-block}
+
+@media (max-width:560px){
+  .scale{display:grid;grid-template-columns:repeat(7,auto);justify-content:center;align-items:center;column-gap:8px;row-gap:10px}
+  .scale .o{grid-row:1}
+  .scale .e{grid-row:2;width:auto;font-size:13px}
+  .scale .e.a{grid-column:1/4;text-align:left}
+  .scale .e.d{grid-column:5/8;text-align:right}
+  .o span{width:calc(var(--s) * .82px);height:calc(var(--s) * .82px)}
+  .q{padding-block:24px}
+}
+
+@media (max-width:860px){
+  .steps,.laws{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cards,.th{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rbody{grid-template-columns:1fr}
+  .nav ul{display:none}
+  .hanko{width:80px;height:80px;font-size:10px;top:0}
+}
+@media (max-width:640px){
+  .rhead .in > div:not(.hanko){order:1}
+  .hanko{position:static;order:2;margin:10px auto 0;transform:rotate(-10deg)}
+  .rhead .in > img{order:3}
+  .hanko b{font-size:18px}
+}
+@media (max-width:480px){
+  .box{padding:20px 16px}
+  .progress .lbl{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+
+<nav class="nav"><div class="in">
+  <a class="logo" href="#top"><svg viewBox="0 0 30 30" aria-hidden="true"><polygon points="15,1.5 27,8.25 27,21.75 15,28.5 3,21.75 3,8.25" fill="#c08a1e"/><polygon points="15,6 23,10.5 23,19.5 15,24 7,19.5 7,10.5" fill="#141110"/><path d="M16.5 8 11 16h4l-1.5 6.5L19 14h-4z" fill="#dfbf6c"/></svg><span><b>BDE理論学会</b><small>OFFICIAL（自称）</small></span></a>
+  <ul><li><a href="#test" id="navTest">認定試験</a></li><li><a href="#types">6つの型</a></li><li><a href="#theory">講義ノート</a></li><li><a href="#result">あなたの結果</a></li><li><a href="#author">提唱者</a></li></ul>
+  <button class="quit" id="quit">試験を中断する</button>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="in">
+    <span class="seal">MBTI、終了のお知らせ</span>
+    <h1>「やっと、自分の<br class="sp"><em>ディックの大きさ</em>が<br class="sp">分かりました」</h1>
+    <div class="who">— 診断を受けた人（28歳・根拠のない自信あり）</div>
+    <p>MBTIはもう要りません。たった45問で、あなたの中に眠るBDE・BCE・BKE……全8エネルギーを測定。就活にも恋愛にも、たぶん使えます。</p>
+    <button class="pill" id="go"><span id="goLbl">授業を受ける（無料）</span> <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 4l6 6-6 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <span class="fine">登録不要・無料・回答はどこにも送信されません ／ ※下ネタではありません。科学でございます。</span>
+  </div>
+  <img class="heroimg" src="images/hero.jpg" width="1400" height="788" alt="雪山の六角形の焚き火を囲む、6タイプのキャラクターたち">
+  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C240,60 480,0 720,24 C960,48 1200,10 1440,30 L1440,60 L0,60Z" fill="#faf6ec"/></svg>
+</header>
+
+<div class="in">
+  <div class="stats">
+    <div class="stat"><b>全部</b><span>提唱者が理論を披露した飲み会の数</span></div>
+    <div class="stat"><b>5 : 5</b><span>大笑いと苦笑の比率</span></div>
+    <div class="stat"><b>0円</b><span>入会金（BDEサロンは準備中）</span></div>
+    <div class="stat"><b>100%</b><span>科学（自称）</span></div>
+  </div>
+  <div class="steps">
+    <div class="step"><span class="tag">ステップ 1</span><h3>試験を受ける</h3><p>直感で答えてください。理想の自分ではなく、いまの自分で。見栄を張るとBDEが測れません。</p></div>
+    <div class="step"><span class="tag">ステップ 2</span><h3>己のディックを知る</h3><p>六角形のどの頂点がいちばんでかいか。それがあなたの型です。</p></div>
+    <div class="step"><span class="tag">ステップ 3</span><h3>乳首を出す</h3><p>足りないエネルギーに変換を起こして、BKE（金玉）を貯める。人生はその繰り返しです。</p></div>
+  </div>
+</div>
+
+<section id="test">
+  <div class="in thead"><h2>BDE理論 認定試験</h2><p id="pg">1 / 5 ページ</p></div>
+  <div class="progress"><div class="in"><div class="row"><span class="lbl">バナナ成長率</span><div class="bar"><div class="fill" id="fill"></div></div><span class="ban" id="ban" aria-hidden="true"><svg viewBox="0 0 46 22"><path d="M3 6c6 10 22 14 39 7-2 5-9 8-17 8C14 21 5 15 2 7z" fill="#f1cf3b" stroke="#7a5a10" stroke-width="1.4" stroke-linejoin="round"/><path d="M2 7 1 2.5l3.5 1.8z" fill="#5a4210"/><path d="M42 13l2.5-.8-1 2.6z" fill="#5a4210"/></svg></span><div class="n" id="cnt">0 / 45</div></div></div></div>
+  <div class="in"><div id="qs"></div>
+    <div class="hint" id="hint"></div>
+    <div class="tnav"><button class="pill ghost" id="prev">戻る</button><button class="pill green" id="next">次へ</button></div>
+  </div>
+</section>
+
+<section id="result"></section>
+
+<section id="types" class="groups">
+  <div class="in sech" style="padding-top:30px"><h2>6つの型</h2><p>六角形の頂点がそのまま型になります。高さ（リップ寄りかアナル寄りか）は型に添えて表示します。</p></div>
+  <div id="grps"></div>
+</section>
+
+<section id="theory"><div class="in">
+  <div class="sech"><h2>講義ノート</h2><p>人間は6つのエネルギーの六角形と、上下に伸びる「高さ」でできている。</p></div>
+  <div class="th" id="th"></div>
+  <div class="laws">
+    <div><b>BKE は変換で貯まる</b>BDEとBCEを行き来させるたびに、マイルのように蓄積されるのがBKE。BOEとBVEの変換はBHEを生む。</div>
+    <div><b>全員が全部持っている</b>男性用・女性用の区別はなく、誰もが6つすべてを持つ。BDE≒BOE、BCE≒BVE、BKE≒BHE。</div>
+    <div><b>命の燃やし方＝点の速さ</b>エネルギー空間の中で点が速く動いているほど命が燃えている。同じ場所に留まるのは、何も変化していない状態。</div>
+  </div>
+</div></section>
+
+<section id="source"><div class="in">
+  <div class="sech"><h2>参考資料</h2><p>この理論は、以下の動画で初めて世に発表されました。</p></div>
+  <div class="src">
+    <a class="thumb" href="https://www.youtube.com/watch?v=Lu8jfUfx-9A" target="_blank" rel="noopener"><span class="ph"><b>雷獣</b><small>YouTubeで動画を見る</small></span><span class="play"><i></i></span></a>
+    <div>
+      <h3><a href="https://www.youtube.com/watch?v=Lu8jfUfx-9A" target="_blank" rel="noopener">【永久保存版】ミスター自己啓発•コムドットやまとに、独自の人生論「BDE」を教えてあげよう</a></h3>
+      <div class="meta">雷獣 ・ 2026年10月7日公開 ・ 1時間13分</div>
+      <ul class="chap" id="chap"></ul>
+      <div class="book">関連書籍：やまと（コムドット）『命の燃やし方』 <a href="https://www.amazon.co.jp/dp/4065405203" target="_blank" rel="noopener">Amazonで見る →</a><br><small>動画の概要欄で「BDE理論と内容がよく似ている」と紹介されている本です。</small></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="author"><div class="in">
+  <div class="sech"><h2>この理論を考えた人</h2><p>BDE理論学会（非公式）の会長にあたる人物です。</p></div>
+  <div class="prof">
+    <svg class="face" viewBox="0 0 120 120" aria-hidden="true"><polygon points="60,4 108,32 108,88 60,116 12,88 12,32" fill="#c08a1e"/><polygon points="60,14 99,37 99,83 60,106 21,83 21,37" fill="#141110"/><text x="60" y="76" text-anchor="middle" font-weight="700" font-size="44" fill="#dfbf6c">ベ</text></svg>
+    <div>
+      <span class="role">提唱者</span>
+      <h3>ベテランち</h3>
+      <div class="aff">YouTubeチャンネル「雷獣」メンバー（灘中・灘高の同級生4人によるチャンネル）</div>
+      <p>動画公開の前年の年末から3月ごろにかけて、出席したすべての飲み会でこの理論を話していた。最初はふざけて言っていたが、言っているうちに本当になってきたという。本人いわく「科学でございます」。</p>
+      <div class="links"><a href="https://twitter.com/veteranchi" target="_blank" rel="noopener">X @veteranchi</a><a href="https://www.youtube.com/@user-raiju" target="_blank" rel="noopener">YouTube 雷獣</a></div>
+    </div>
+  </div>
+  <ul class="co" id="co"></ul>
+  <p class="fineprint">共同研究者の担当は、動画内の発言（自動字幕）から読み取ったものです。</p>
+</div></section>
+
+<footer><div class="in">
+  <b>BDE理論学会（非公式）</b>
+  このページはファンが作った非公式のパロディです。雷獣・コムドットとは関係ありません。元ネタの動画：<a href="https://www.youtube.com/watch?v=Lu8jfUfx-9A" target="_blank" rel="noopener">【永久保存版】ミスター自己啓発・コムドットやまとに、独自の人生論「BDE」を教えてあげよう（雷獣）</a>。理論の提唱はベテランち。質問項目・採点方法・型の名前は、動画の説明をもとにこのページ用に作ったものです。
+</div></footer>
+
+<script>
+(function(){
+const YT="https://www.youtube.com/watch?v=Lu8jfUfx-9A&t=";
+const E={
+  D:{code:"BDE",jp:"根拠のない自信",desc:"攻め、突っ込み、カリスマ。才能とは関係なく、なぜか前に出られる力。",t:154,c:"--t-D"},
+  C:{code:"BCE",jp:"いじられ力・可愛げ",desc:"攻撃を受け止めるディフェンス力。いじりたくなる魅力。BDEと相反する。",t:666,c:"--t-C"},
+  K:{code:"BKE",jp:"キャラ性・スター性",desc:"BDEとBCEの変換で貯まるマイル。極まると強気と可愛げを自在に出し入れできる。",t:841,c:"--t-K"},
+  O:{code:"BOE",jp:"支配的な包容力",desc:"包み込みながら主導権を握る力。女性側の根拠のない自信。BDEに近い。",t:1727,c:"--t-O"},
+  V:{code:"BVE",jp:"受け止め力・優しさ",desc:"受け身、優しさ、相手を受け入れる力。BCEに近い。",t:1666,c:"--t-V"},
+  H:{code:"BHE",jp:"華・ポップさ",desc:"性的ではないのに目を惹くボリューム感。女性側のBKE。",t:1822,c:"--t-H"},
+  L:{code:"BLE",jp:"洗練（上）",desc:"偏りが消え、概念のような存在へ向かう力。行きすぎると芸能人化してつまらなくなる。",t:3565,c:"--g-cr-d"},
+  A:{code:"BAE",jp:"生々しさ（下）",desc:"生活感、泥臭さ、リアルさ。油断するとエネルギーが下へ流れ出る。",t:3707,c:"--g-dr-d"},
+};
+const Q={
+  D:[["実績がなくても「自分ならいける」と思える。"],["格上の相手にも、物怖じせず意見や反論をぶつけられる。"],["間違っていると思ったら、相手が誰でも「それは違う」とツッコめる。"],["誰にでも勝っていたいと思う。"],["自信がなくて、前に出るのをためらうことが多い。",1]],
+  C:[["いじられると、むしろおいしいと感じる。"],["自分の失敗談やダサい話を、笑いながら話せる。"],["周りから「ほっとけない」「可愛げがある」と言われる。"],["きつい言葉を向けられても、ムキにならず受け流せる。"],["弱みや隙を人に見せるのが怖い。",1]],
+  O:[["優しく接しながらも、気づけば相手を自分のペースに巻き込んでいる。"],["面倒を見ているうちに、周りが自分の言うことを聞くようになっている。"],["自分の存在感で場を包み込める感覚がある。"],["相手を上手にコントロールするほうだ。"],["包み込むように面倒を見るので、母親っぽいと言われる。"]],
+  V:[["人の話を否定せず、最後まで受け止めて聞ける。"],["恋愛や人間関係では、相手に合わせて尽くしてしまうほうだ。"],["相手の感情に引っ張られやすい。"],["自分から動くより、相手に委ねるほうが楽だ。"],["どんな人でも、ひとまず受け入れられる。"]],
+  K:[["強気な面と弱い面を、場面に応じて自在に出し入れできる。"],["初対面の人にも「キャラ」としてすぐ覚えてもらえる。"],["自分の見せ方を、一歩引いた視点でプロデュースしている。"],["何をしていても「この人っぽい」と言われる、よくわからない存在感がある。"],["わざと調子に乗ったり、わざとダサいことをしたりして笑いに変えられる。"]],
+  H:[["性別や年齢を問わず、幅広い人から好かれる。"],["色気より「華」や「ポップさ」で人を惹きつけるタイプだ。"],["自分を嫌っている人をあまり見たことがない。"],["派手に目立っても、いやらしさや嫌味に受け取られにくい。"],["性別をあまり感じさせない魅力があると言われる。"]],
+  L:[["年々、角が取れて落ち着いてきたと感じる。"],["感情をあまり表に出さず、品よく振る舞える。"],["人前では「きちんとした人」として見られている。"],["生活感やドロドロした部分を人に見せない。"],["個人としてより、立場や役割として扱われることが多い。"]],
+  A:[["欲望や本音が、つい生々しく表に出てしまう。"],["生活感やだらしなさを隠さない。"],["勢いで行動して、取り返しがつかなくなったことがある。"],["下品な話や泥臭い話でこそ盛り上がれる。"],["つかんだ勢いやチャンスを、自分で台無しにしてしまうことがある。"]],
+  F:[["ここ半年で、自分のキャラや立ち位置が大きく変わった。"],["最近、自分でも意外なキャラが表に出てくるようになった。"],["昔の自分を知る人に「変わったね」と言われる。"],["ここ数年、自分はほとんど変わっていないと思う。",1],["強気でいく時期と、いじられる時期を行ったり来たりしている。"]],
+};
+const ORDER=["D","C","K","O","V","H","L","A","F"];
+const items=[];for(let i=0;i<5;i++) ORDER.forEach(k=>items.push({k,t:Q[k][i][0],r:!!Q[k][i][1]}));
+const PER=9,PAGES=Math.ceil(items.length/PER);
+let ans=new Array(items.length).fill(null),page=0;
+
+/* 六角形の頂点＝6タイプ */
+const TYPES={
+  D:{name:"根拠なき自信家",catch:"才能より先に、自信がある",
+     desc:"実績や理由がなくても、なぜか前に出られる人。格上にも物怖じせず突っ込み、場の主導権を握る。隙を見せないかっこよさが武器です。ただBDEだけが出すぎると、周りからは叩きにくさだけが見えて、反発を食らうこともあります。",
+     grow:["乳首を出してもいい","いじられる隙やダサい一面を見せると、BDEがBCEに変換されてBKEが貯まります。"]},
+  C:{name:"愛されいじられ役",catch:"隙があるから、人が寄ってくる",
+     desc:"いじられることをおいしいと思え、失敗談も笑って話せる人。攻撃を受け流すディフェンス力と、思わず構いたくなる可愛げを持つ。場の空気を柔らかくする一方で、自分から前に出る場面は少なめです。",
+     grow:["根拠のない自信で一歩踏み込む","核心を突く一言を言う、格上に挑むなど、BCEをBDEとして発した瞬間にBKEが一気に上がります。"]},
+  K:{name:"変換の達人",catch:"強気も可愛げも、自在に出し入れ",
+     desc:"強気な面と弱い面を行き来させてきた結果、キャラクターそのものに魅力がある人。何をしていても「この人っぽい」と受け入れられる。極まると、麦茶を作っているだけで成立する、ディックも乳首も感じさせない存在になります。",
+     grow:["あえて人工BDEで揺らす","キャラが完成していても、制御した攻めをわざと見せると、まだ上があります。"]},
+  O:{name:"包み込む支配者",catch:"優しさで、主導権を握る",
+     desc:"面倒見がよく包容力があるのに、気づけば周りが自分のペースで動いている人。優しく接しながら主導権を握る、もうひとつの「根拠のない自信」の形です。",
+     grow:["受け止める側にも回る","相手に委ねる時間を作ると、BOEがBVEに変換されてBHE（華）が育ちます。"]},
+  V:{name:"受け止めの器",catch:"どんな人も、まず受け入れる",
+     desc:"人の話を否定せずに受け止め、相手に合わせられる人。優しさと受け身の強さで、周りに安心感を与える。ただ受け止める力が強すぎると、相手に振り回されたり尽くしすぎたりしがちです。",
+     grow:["包み込みながら主導権を握る","受け止めるだけでなく、相手を自分のペースに巻き込むBOEを意識すると、関係が整います。"]},
+  H:{name:"ポップアイコン",catch:"性別を超えて、なぜか好かれる",
+     desc:"色気より華やかさやポップさで人を惹きつける人。性別や年齢を問わず好かれ、嫌っている人をあまり見かけない。BOEとBVEを行き来した結果として育つ、女性側のBKEにあたる魅力です。",
+     grow:["意外な尖りを見せる","ニュートラルな好感度に、BDEやBOEの尖りが加わると無敵になります。"]},
+};
+const PAIRS=[
+  {name:"攻め",sub:"根拠のない自信で前に出る",keys:["D","O"],bg:"--aka-pale",c:"--aka"},
+  {name:"受け",sub:"受け止めて、いじられる",keys:["C","V"],bg:"--kin-pale",c:"--kin"},
+  {name:"キャラ",sub:"変換を重ねて貯まった魅力",keys:["K","H"],bg:"--mist",c:"--kuro"},
+];
+const PLANE=["D","C","K","O","V","H"];
+const HEIGHT={
+  L:{label:"リップ寄り",desc:"偏りが整い、品よく洗練されている状態。概念のような存在に近づいていますが、行きすぎると芸能人化して面白さが薄れることも。"},
+  A:{label:"アナル寄り",desc:"生活感や生々しさが前に出ている状態。リアルで勢いがある反面、油断するとエネルギーが下に流れ出ていきます。"},
+  M:{label:"高さは中間",desc:"洗練にも生々しさにも寄っていない状態。どちらに動くかで、タイプの見え方が変わります。"},
+};
+
+const $=s=>document.querySelector(s);
+const clamp=v=>Math.max(0,Math.min(100,v));
+const pct=(a,b)=>a+b===0?50:a/(a+b)*100;
+
+function score(a){
+  const raw={};
+  for(const k of ORDER){
+    const v=items.map((it,i)=>it.k===k?(a[i]==null?3:(it.r?6-a[i]:a[i])):null).filter(x=>x!=null);
+    raw[k]=v.reduce((x,y)=>x+y,0)/v.length/6*100;
+  }
+  const s={D:raw.D,C:raw.C,O:raw.O,V:raw.V,L:raw.L,A:raw.A,F:raw.F};
+  // BKE/BHE は自己評価に「変換量（両極の小さいほう）」を加味
+  s.K=clamp(.65*raw.K+.35*Math.min(raw.D,raw.C));
+  s.H=clamp(.65*raw.H+.35*Math.min(raw.O,raw.V));
+  for(const k in s) s[k]=Math.round(s[k]);
+  const rank=[...PLANE].sort((x,y)=>s[y]-s[x]);
+  const d=s.L-s.A, h=d>=10?"L":d<=-10?"A":"M";
+  return {s,type:rank[0],sub:rank[1],h};
+}
+function advice(r){
+  const {s,type}=r,o=[["あなたの伸び代",...TYPES[type].grow]];
+  if(s.K<45&&Math.min(s.D,s.C)>=55) o.push(["変換不足","強気と可愛げを行き来させる","攻めも可愛げも持っているのに、変換が起きていません。自分より大きなBDEとぶつかる場を作ってみてください。"]);
+  if(s.L>=72) o.push(["BLE過多","リップに寄りすぎ注意","洗練されすぎると、テレビに出た途端つまらなくなった人のように魅力が薄れることも。たまに生々しさ（BAE）を。"]);
+  if(s.A>=72) o.push(["BAE過多","下に流れ出るリスク","生々しさは魅力ですが、油断するとエネルギーが下へ抜けていきます。守るべき一線を決めておきましょう。"]);
+  if(s.F<40) o.push(["燃焼度が低い","点を動かす","エネルギー空間の中で点がほとんど動いていません。新しい場所に出る、役割を変えるなど、変換が起きる環境へ。"]);
+  if(s.F>=70) o.push(["燃焼度が高い","軌跡の形を意識する","点が高速で動き、命がよく燃えています。どんな形の軌跡を描きたいかを考えると、変化に方向性が生まれます。"]);
+  return o.slice(0,3);
+}
+
+/* ---------- イラスト ---------- */
+const IMG=(t,kind,cls="")=>`<img class="${cls}" src="images/${E[t].code.toLowerCase()}-${kind}.jpg" alt="${TYPES[t].name}のイラスト" loading="lazy" ${kind==="card"?'width="800" height="800"':'width="1400" height="933"'}>`;
+
+/* ---------- テスト ---------- */
+const SZ=[52,44,36,28,36,44,52];
+function renderPage(){
+  const st=page*PER,en=Math.min(st+PER,items.length);let h="";
+  for(let i=st;i<en;i++){
+    h+=`<div class="q${ans[i]!=null?" done":""}" id="q${i}"><p class="t">${items[i].t}</p><div class="scale" role="radiogroup" aria-label="${items[i].t}"><span class="e a">そう思う</span>`;
+    for(let j=0;j<7;j++){const v=6-j;const c=j<3?"--agree":j>3?"--disagree":"--mid";
+      h+=`<label class="o" style="--c:var(${c})"><input type="radio" name="a${i}" id="a${i}_${v}" value="${v}" ${ans[i]===v?"checked":""} aria-label="${["とてもそう思う","そう思う","ややそう思う","どちらでもない","ややそう思わない","そう思わない","まったくそう思わない"][j]}"><span style="--s:${SZ[j]}"></span></label>`}
+    h+=`<span class="e d">そう思わない</span></div></div>`;
+  }
+  $("#qs").innerHTML=h;
+  $("#pg").textContent=`${page+1} / ${PAGES} ページ`;
+  $("#prev").disabled=page===0;
+  $("#next").textContent=page===PAGES-1?"判定を受ける":"次へ";
+  $("#hint").textContent="";prog();
+}
+function prog(){const n=ans.filter(a=>a!=null).length,p=n/items.length;$("#cnt").textContent=`${n} / ${items.length}`;$("#fill").style.width=`${p*100}%`;$("#ban").style.transform=`scaleX(${.3+.7*p}) scaleY(${.6+.4*p})`}
+const rm=()=>matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth";
+$("#qs").addEventListener("change",e=>{
+  const m=e.target.name.match(/^a(\d+)$/);if(!m)return;
+  const i=+m[1];ans[i]=+e.target.value;
+  const el=document.getElementById("q"+i);el.classList.remove("miss");el.classList.add("done");
+  prog();try{localStorage.setItem("bde_draft",JSON.stringify(ans))}catch(_){}
+  const nx=document.getElementById("q"+(i+1));if(nx&&ans[i+1]==null)nx.scrollIntoView({behavior:rm(),block:"center"});
+});
+$("#next").onclick=()=>{
+  const st=page*PER,en=Math.min(st+PER,items.length),miss=[];
+  for(let i=st;i<en;i++) if(ans[i]==null) miss.push(i);
+  if(miss.length){miss.forEach(i=>document.getElementById("q"+i).classList.add("miss"));$("#hint").textContent=`未回答が${miss.length}問あります。逃げるのはBDEが足りない証拠です`;document.getElementById("q"+miss[0]).scrollIntoView({behavior:rm(),block:"center"});return}
+  if(page<PAGES-1){page++;renderPage();scrollTo(0,0)}
+  else{exitTest();renderResult(score(ans),false);try{localStorage.setItem("bde_result",JSON.stringify(ans));localStorage.removeItem("bde_draft")}catch(_){}$("#result").scrollIntoView()}
+};
+$("#prev").onclick=()=>{if(page>0){page--;renderPage();scrollTo(0,0)}};
+function enterTest(){document.body.classList.add("testing");renderPage();scrollTo(0,0)}
+function exitTest(){document.body.classList.remove("testing");updGo()}
+function updGo(){const n=ans.filter(a=>a!=null).length;$("#goLbl").textContent=n&&n<items.length?`続きから受ける（${n} / ${items.length}）`:"授業を受ける（無料）"}
+$("#go").onclick=enterTest;
+$("#navTest").onclick=e=>{e.preventDefault();enterTest()};
+$("#quit").onclick=()=>{exitTest();scrollTo(0,0)};
+
+/* ---------- タイプ一覧 ---------- */
+let myType=null;
+function renderGroups(){
+  const grp={};PAIRS.forEach(g=>g.keys.forEach(k=>grp[k]=g.name));
+  $("#grps").innerHTML=`<div class="in"><div class="tgrid">${["D","C","K","O","V","H"].map(t=>{const T=TYPES[t],first=T.desc.split("。")[0]+"。";
+    return `<article class="tcard${t===myType?" me":""}" style="--tc:var(--t-${t});--tbg:var(--t-${t}-bg)">${t===myType?'<span class="you">あなたの型</span>':""}<div class="art">${IMG(t,"card")}</div><div class="body"><span class="tag">${grp[t]} ・ ${E[t].code}型</span><h3>${T.name}</h3><p class="catch">${T.catch}</p><p>${first}</p></div></article>`}).join("")}</div></div>`;
+}
+
+
+/* ---------- 結果 ---------- */
+const HEX=["D","K","C","V","H","O"];
+function hexPts(cx,cy,r){return HEX.map((_,i)=>{const a=-Math.PI/2+i*Math.PI/3;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]})}
+/* ---------- 3Dエネルギー空間（六角形の平面＋高さの軸） ---------- */
+let space3dStop=null;
+function space3d(cv,s,type,typeColor){
+  if(space3dStop) space3dStop();
+  const ctx=cv.getContext("2d"), css=getComputedStyle(document.documentElement);
+  const col=n=>css.getPropertyValue(n).trim();
+  const ink=col("--ink"),sub=col("--sub"),line=col("--line"),kin=col("--kin"),aka=col("--aka"),blue=col("--g-cr"),tc=col(typeColor);
+  const dirs=HEX.map((_,i)=>{const a=-Math.PI/2+i*Math.PI/3;return [Math.cos(a),Math.sin(a)]});
+  // あなたの点：平面上はエネルギーの重心（強い頂点の方へ寄る）、高さは BLE−BAE
+  const tot=HEX.reduce((a,k)=>a+s[k],0)||1;
+  let px=0,py=0;HEX.forEach((k,i)=>{px+=dirs[i][0]*s[k]/tot;py+=dirs[i][1]*s[k]/tot});
+  px=0;py=0; // 頂点は中心の縦軸上（高さ＝BLE−BAE）
+  const VMAX=40; // 縦軸は高さ（BLE−BAE）の±40を上下の頂点にして強調
+  const pz=Math.max(-1.15,Math.min(1.15,(s.L-s.A)/VMAX));
+  let yaw=-0.5,pitch=0.36,drag=null,raf=0,W=0,Hh=0,R=0,dpr=1;
+  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function size(){dpr=Math.min(2,devicePixelRatio||1);W=cv.clientWidth;Hh=Math.round(W*1.05);cv.style.height=Hh+"px";cv.width=W*dpr;cv.height=Hh*dpr;R=W*0.33}
+  function P(x,y,z){const c=Math.cos(yaw),sn=Math.sin(yaw);const x1=x*c-y*sn,y1=x*sn+y*c;
+    return [W/2+R*x1, Hh*0.5+R*(y1*Math.sin(pitch)-z*1.3*Math.cos(pitch)), y1*Math.cos(pitch)+z*Math.sin(pitch)]}
+  function poly(pts,stroke,fill,w){ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=w||1;ctx.stroke()}}
+  function seg(a,b,stroke,w,dash){ctx.beginPath();ctx.setLineDash(dash||[]);ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.strokeStyle=stroke;ctx.lineWidth=w||1;ctx.stroke();ctx.setLineDash([])}
+  function txt(t,p,color,font,align){ctx.fillStyle=color;ctx.font=font;ctx.textAlign=align||"center";ctx.textBaseline="middle";ctx.fillText(t,p[0],p[1])}
+  const F='"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif';
+  function draw(){
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,Hh);
+    const O=P(0,0,0),TOP=P(0,0,1),BOT=P(0,0,-1),rim=dirs.map(d=>P(d[0],d[1],0));
+    const RV=HEX.map((k,i)=>P(dirs[i][0]*s[k]/100,dirs[i][1]*s[k]/100,0));
+    const PT=P(px,py,pz);
+    // あなたの形：六角形を底面に、高さの点を頂点にした六角錐
+    const cone=()=>{RV.forEach((a,i)=>{const b=RV[(i+1)%6];poly([a,b,PT],null,tc+"2e")});RV.forEach(a=>seg(a,PT,tc,1.8))};
+    // 外枠（最大値100の六角錐）
+    rim.forEach(a=>seg(a,BOT,line,1));
+    // 縦の目盛り
+    seg(TOP,BOT,sub+"88",1.2,[3,4]);
+    [[1,"+40"],[.5,"+20"],[-.5,"−20"],[-1,"−40"]].forEach(([z,l])=>{const q=P(0,0,z);seg([q[0]-5,q[1]],[q[0]+5,q[1]],sub,1.5);txt(l,[q[0]-9,q[1]],sub,`700 10px ${F}`,"right")});
+    if(pz<0) cone();
+    txt(`アナル寄り（BAE ${s.A}）▼`,[BOT[0],BOT[1]+18],col("--g-dr-d"),`700 13px ${F}`);
+    // 平面
+    [.25,.5,.75].forEach(f=>poly(dirs.map(d=>P(d[0]*f,d[1]*f,0)),line,null,1));
+    poly(rim,ink+"44","rgba(255,253,247,.35)",1.5);
+    dirs.forEach(d=>seg(O,P(d[0],d[1],0),line,1));
+    poly(RV,tc,tc+"33",2.5);
+    HEX.forEach((k,i)=>{const q=P(dirs[i][0]*1.22,dirs[i][1]*1.22,0),me=k===type;
+      txt(E[k].code,[q[0],q[1]-7],me?tc:ink,`700 ${me?15:13}px ${F}`);
+      txt(String(s[k]),[q[0],q[1]+9],sub,`700 11px ${F}`)});
+    // あなたの点の影と高さ
+    const base=P(px,py,0),pt=P(px,py,pz);
+    ctx.beginPath();ctx.ellipse(base[0],base[1],9,9*Math.sin(pitch),0,0,Math.PI*2);ctx.fillStyle="rgba(29,26,23,.18)";ctx.fill();
+    seg(base,pt,aka,1.5,[4,4]);
+    if(pz>=0) cone();
+    rim.forEach(a=>seg(a,TOP,line,1));
+    txt(`▲ リップ寄り（BLE ${s.L}）`,[TOP[0],TOP[1]-14],blue,`700 13px ${F}`);
+    ctx.beginPath();ctx.arc(pt[0],pt[1],13,0,Math.PI*2);ctx.fillStyle=aka+"33";ctx.fill();
+    ctx.beginPath();ctx.arc(pt[0],pt[1],7,0,Math.PI*2);ctx.fillStyle=aka;ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();
+    const hv=s.L-s.A;
+    txt(`あなた（高さ ${hv>0?"+":""}${hv}）`,[pt[0]+12,pt[1]-14],aka,`700 13px ${F}`,"left");
+  }
+  function loop(){if(!drag&&!reduce) yaw+=0.004;draw();raf=requestAnimationFrame(loop)}
+  const down=e=>{drag={x:e.clientX,y:e.clientY,yaw,pitch};cv.setPointerCapture(e.pointerId)};
+  const move=e=>{if(!drag)return;yaw=drag.yaw+(e.clientX-drag.x)*0.01;pitch=Math.max(0.12,Math.min(1.25,drag.pitch+(e.clientY-drag.y)*0.008));if(reduce)draw()};
+  const up=()=>{drag=null};
+  cv.addEventListener("pointerdown",down);cv.addEventListener("pointermove",move);cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+  const ro=new ResizeObserver(()=>{size();draw()});ro.observe(cv);
+  size();draw();if(!reduce) raf=requestAnimationFrame(loop);
+  space3dStop=()=>{cancelAnimationFrame(raf);ro.disconnect()};
+}
+
+function bar(t,c,p,leftLbl,rightLbl,val){
+  const left=p>=50;
+  return `<div class="trait" style="--tc:var(${c})"><div class="top">${t}：<b>${val}</b></div><div class="bar"><i style="${left?`left:0;width:${p}%`:`right:0;width:${100-p}%`}"></i><u style="left:${p}%"></u></div><div class="ends"><span class="${left?"on":""}">${leftLbl}</span><span class="${left?"":"on"}">${rightLbl}</span></div></div>`;
+}
+function renderResult(r,sample){
+  const {s,type,sub,h}=r,T=TYPES[type],gc=`var(--t-${type})`,gbg=`var(--t-${type}-bg)`,H=HEIGHT[h];
+  myType=sample?null:type;
+  const hp=pct(s.L,s.A);
+  const heightBar=bar("高さ","--g-cr",hp,"リップ（BLE）","アナル（BAE）",`${H.label}（BLE ${s.L} / BAE ${s.A}）`);
+  const fireBar=`<div class="trait" style="--tc:var(--g-dr)"><div class="top">命の燃焼度：<b>${s.F}</b></div><div class="bar"><i style="left:0;width:${s.F}%"></i><u style="left:${s.F}%"></u></div><div class="ends"><span>静止</span><span>高速で変化</span></div></div>`;
+  const rows=["D","C","K","O","V","H","L","A"].map(k=>`<tr style="--pc:var(${E[k].c})${k===type?";background:var(--t-"+k+"-bg)":""}"><td class="k">${E[k].code}</td><td class="j">${E[k].jp}</td><td><div class="b"><i style="width:${s[k]}%"></i></div></td><td class="v">${s[k]}</td></tr>`).join("")+`<tr style="--pc:var(--g-dr)"><td class="k">燃焼</td><td class="j">命の燃焼度</td><td><div class="b"><i style="width:${s.F}%"></i></div></td><td class="v">${s.F}</td></tr>`;
+  const SL=shareLinks(r);
+  const share=`【BDE理論学会 認定】${E[type].code}型「${T.name}」（${H.label}）\nサブ：${E[sub].code}\nBDE ${s.D} / BCE ${s.C} / BKE ${s.K}\nBOE ${s.O} / BVE ${s.V} / BHE ${s.H}\nBLE ${s.L} / BAE ${s.A} / 燃焼度 ${s.F}`;
+  $("#result").innerHTML=`
+  <div class="rhead" style="--gbg:var(--kin-pale);--gc:${gc}"><div class="in"><div class="hanko" aria-label="BDE理論学会 認定">BDE理論学会<b>認定</b>${E[type].code}型</div>
+    <div>${sample?`<span class="badge">サンプル判定：試験を終えると、あなたの結果に置き換わります</span>`:`<span class="badge">あなたの判定結果</span>`}
+      <div class="you">あなたのタイプは</div><h2>${T.name}</h2><div class="code">${E[type].code}型<small>${H.label}・サブ ${E[sub].code}</small></div><p class="catch">${T.catch}</p></div>
+    ${IMG(type,"scene","fig")}
+  </div><svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" style="background:var(--kin-pale)"><path d="M0,30 C240,60 480,0 720,24 C960,48 1200,10 1440,30 L1440,60 L0,60Z" fill="#faf6ec"/></svg></div>
+  <div class="in"><div class="rbody" style="--gbg:${gbg};--gc:${gc}">
+    <div class="box wide"><h3>${E[type].code}型「${T.name}」とは</h3><p class="desc">${T.desc}</p></div>
+    <div class="box"><h3>エネルギー空間（3D）</h3><p class="lead">型の色の六角錐が「あなたの形」です。底面の六角形が6つのエネルギー、頂点（赤い点）の高さがBLE−BAEで、上ならリップ寄り、下ならアナル寄り。差が見えやすいように、縦は±40を上下の端にして強調しています。灰色の枠は満点の形です。ドラッグで回せます。</p><canvas class="space" id="space3d" role="img" aria-label="エネルギー空間の立体図。${E[type].code}がいちばん強く、高さは${H.label}"></canvas></div>
+    <div class="box"><h3>高さと燃焼度</h3><p class="lead">六角形の外にある2つの指標です。</p>${heightBar}<p class="lead" style="margin-top:-8px">${H.desc}</p><p class="lipnote">リップを極めた例：タモリ、黒柳徹子 <a href="${YT}3619s" target="_blank" rel="noopener">動画 1:00:19 →</a></p>${fireBar}<p class="lead" style="margin:-8px 0 0">エネルギー空間の中で、あなたの点がどれだけ速く動いているか。速いほど命が燃えています。</p></div>
+    <div class="box"><h3>パラメーター</h3><p class="lead">各エネルギーを0〜100で表示しています。</p><table class="p">${rows}</table></div>
+    <div class="box"><h3>伸び代</h3><p class="lead">次に点を動かす方向。</p><ul class="adv">${advice(r).map(a=>`<li><small>${a[0]}</small><b>${a[1]}</b>${a[2]}</li>`).join("")}</ul></div>
+    <div class="box wide"><h3>あなたに似ている人</h3><p class="lead">動画の中で、${E[type].code}が強いと分析されていた人たちです（動画内のネタとしての分析で、本人の性格を断定するものではありません）。</p><ul class="look">${lookHTML(type)}</ul></div>
+    <div class="box wide" id="shareBox"><h3>分析シートをシェア</h3><p class="lead">登録は一切不要です。回答はこの端末の中だけで計算され、どこにも送信されません。この画面をそのままスクショして投稿してもOKです。</p>
+      <div class="sheetwrap">
+        <figure class="sheet"><img id="sheetImg" alt="BDE理論学会 認定 分析シート（${E[type].code}型「${T.name}」）" width="1080" height="1350"><figcaption>スマホは画像を長押し、パソコンは右クリック →「画像を保存」で保存できます。</figcaption></figure>
+        <div class="sheetside">
+          <div class="snsbtns">
+            <a class="sns x" href="${SL.x}" target="_blank" rel="noopener">Xでシェア</a>
+            <a class="sns line" href="${SL.line}" target="_blank" rel="noopener">LINEで送る</a>
+            <a class="sns threads" href="${SL.threads}" target="_blank" rel="noopener">Threadsでシェア</a>
+          </div>
+          <p class="lead" style="margin:4px 0 8px">投稿に分析シートの画像を添付すると、ひと目で結果が伝わります。</p>
+          <textarea id="shareTxt" readonly aria-label="シェア用テキスト">${shareText(r)}\n${SITE_URL}\n#BDE理論</textarea>
+          <div class="share"><button class="pill" id="copy">テキストをコピー</button><button class="pill ghost" id="retry">もう一度テストを受ける</button></div>
+          <span class="toast" id="toast" aria-live="polite"></span>
+        </div>
+      </div></div>
+  </div></div>`;
+  $("#copy").onclick=()=>{const ta=$("#shareTxt");const fb=()=>{ta.select();$("#toast").textContent="テキストを選択しました。手動でコピーしてください"};
+    if(navigator.clipboard) navigator.clipboard.writeText(ta.value).then(()=>{$("#toast").textContent="コピーしました"}).catch(fb); else fb()};
+  $("#retry").onclick=()=>{ans=new Array(items.length).fill(null);page=0;try{localStorage.removeItem("bde_draft")}catch(_){}enterTest()};
+  space3d($("#space3d"),s,type,`--t-${type}`);
+  makeSheet(r,sample).then(u=>{const im=$("#sheetImg");if(im)im.src=u}).catch(()=>{});
+  renderGroups();
+}
+
+
+/* ---------- 似ている人・参考資料・共同研究者 ---------- */
+const ts=t=>`${t>=3600?Math.floor(t/3600)+":"+String(Math.floor(t%3600/60)).padStart(2,"0"):Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
+const LOOK={
+  D:[["ひゅうが（コムドット）","BDE一本で登り詰めた男。置き配を受け取る姿すら許せない",3105],["やまと（コムドット）","X（旧Twitter）での発信は、常にBDEだった",1190]],
+  C:[["しがない数学者（雷獣）","もともとは完全な乳首人間だった",2566],["あむぎり（コムドット）","乳首エナジーしか見えないからこそ、つい触りたくなる",3280]],
+  K:[["ヒカキン","麦茶を作るだけで成立する、BKEの限界突破",1380],["大森元貴（Mrs. GREEN APPLE）","生まれながらのBDEでもBCEでもない、球体",1537],["ニシダ（ラランド）","金玉で説明できるコンビの片割れ",1873]],
+  O:[["サーヤ（ラランド）","普段は見せないが、DよりかOより",1885]],
+  V:[["あのちゃん","Vを押し出せるのは、Oがあるから",1944]],
+  H:[["ゆうた（コムドット）","中性的な魅力で、ファンからのBH・BKが大きい",3336]],
+};
+const CHAP=[[154,"BDE（ビッグ・ディック・エナジー）とは"],[667,"BCE（乳首）の発見"],[841,"BKE（金玉）とスター性"],[1666,"女性側のエネルギー（BVE・BOE・BHE）"],[3542,"立体化：BLE（リップ）とBAE（アナル）"],[3953,"命の燃やし方＝点の速さ"]];
+const CO=[["やまと（コムドット）","聞き手。最初にこの理論にハマった人",278],["しがない数学者（雷獣）","「命の燃やし方＝エネルギー空間を動く点の速さ」を考案",3953],["田村さん（東大YouTuber）","女性側のエネルギー（BVE・BOE・BHE）を一緒に考案",1620],["今井（雷獣）","BLE（ビッグ・リップ・エナジー）を考案",4117],["かべ（雷獣）","BAE（ビッグ・アナル・エナジー）を考案",4113]];
+function lookHTML(type){
+  return LOOK[type].map(([n,d,t])=>`<li><span class="av">${n[0]}</span><div><b>${n}</b><span>${d}</span><a href="${YT}${t}s" target="_blank" rel="noopener">動画 ${ts(t)} →</a></div></li>`).join("");
+}
+function staticLists(){
+  $("#chap").innerHTML=CHAP.map(([t,l])=>`<li><a href="${YT}${t}s" target="_blank" rel="noopener"><time>${ts(t)}</time><b>${l}</b></a></li>`).join("");
+  $("#co").innerHTML=CO.map(([n,d,t])=>`<li><b>${n}</b><span>${d}</span><a href="${YT}${t}s" target="_blank" rel="noopener">動画 ${ts(t)} →</a></li>`).join("");
+}
+
+/* ---------- 分析シート（SNSシェア用の画像） ---------- */
+const SITE_URL="https://soratoki11703-hash.github.io/BDE/";
+const MINCHO='"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif', GOTH='"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif';
+function loadImg(src){return new Promise((ok,ng)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=ng;im.src=src})}
+function wrapText(ctx,text,x,y,maxW,lh,maxLines){
+  let line="",lines=[];
+  for(const ch of text){if(ctx.measureText(line+ch).width>maxW){lines.push(line);line=ch}else line+=ch}
+  if(line)lines.push(line);
+  if(maxLines&&lines.length>maxLines){lines=lines.slice(0,maxLines);lines[maxLines-1]=lines[maxLines-1].slice(0,-1)+"…"}
+  lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lh));return lines.length;
+}
+async function makeSheet(r,sample){
+  const {s,type,sub,h}=r,T=TYPES[type],H=HEIGHT[h];
+  const css=getComputedStyle(document.documentElement),col=n=>css.getPropertyValue(n).trim();
+  const tc=col(`--t-${type}`),tbg=col(`--t-${type}-bg`),kuro=col("--kuro"),kin=col("--kin"),kinL=col("--kin-l"),aka=col("--aka"),ink=col("--ink"),sub2=col("--sub"),line=col("--line");
+  try{await Promise.all([document.fonts.load(`700 40px ${MINCHO}`),document.fonts.load(`700 20px ${GOTH}`),document.fonts.load(`400 20px ${GOTH}`)])}catch(_){}
+  const Wd=1080,Ht=1350,cv=document.createElement("canvas");cv.width=Wd;cv.height=Ht;
+  const c=cv.getContext("2d");
+  const t=(txt,x,y,font,color,align)=>{c.font=font;c.fillStyle=color;c.textAlign=align||"left";c.textBaseline="alphabetic";c.fillText(txt,x,y)};
+  // 地
+  c.fillStyle="#faf6ec";c.fillRect(0,0,Wd,Ht);
+  // 上の帯
+  c.fillStyle=kuro;c.fillRect(0,0,Wd,140);c.fillStyle=kin;c.fillRect(0,140,Wd,6);
+  t("BDE理論学会 認定 分析シート",60,90,`700 46px ${MINCHO}`,kinL);
+  const d=new Date();t(`OFFICIAL（自称）  ${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`,Wd-60,88,`700 22px ${GOTH}`,"#bfb39a","right");
+  // キャラクター
+  c.fillStyle=tbg;c.beginPath();c.roundRect(60,186,340,340,22);c.fill();
+  try{const im=await loadImg(`images/${E[type].code.toLowerCase()}-card.jpg`);c.save();c.beginPath();c.roundRect(60,186,340,340,22);c.clip();c.globalCompositeOperation="multiply";c.drawImage(im,60,186,340,340);c.restore()}catch(_){}
+  // 型の名前
+  t("あなたの型は",440,232,`700 26px ${GOTH}`,sub2);
+  c.font=`700 76px ${MINCHO}`;const nm=T.name;let fs=76;while(c.measureText(nm).width>560&&fs>48){fs-=4;c.font=`700 ${fs}px ${MINCHO}`}
+  t(nm,436,322,`700 ${fs}px ${MINCHO}`,tc);
+  t(`${E[type].code}型`,440,384,`700 40px ${MINCHO}`,ink);
+  t(`${H.label} ・ サブ ${E[sub].code}`,580,382,`700 24px ${GOTH}`,sub2);
+  c.font=`700 26px ${GOTH}`;c.fillStyle=ink;wrapText(c,T.catch,440,440,560,38,2);
+  // ハンコ
+  c.save();c.translate(950,470);c.rotate(-.24);c.strokeStyle=aka;c.lineWidth=5;c.globalAlpha=.88;
+  c.beginPath();c.arc(0,0,66,0,Math.PI*2);c.stroke();
+  t("BDE理論学会",0,-24,`700 15px ${GOTH}`,aka,"center");c.fillRect(-46,-14,92,3);
+  t("認定",0,20,`700 32px ${MINCHO}`,aka,"center");c.fillRect(-46,30,92,3);
+  t(`${E[type].code}型`,0,52,`700 15px ${GOTH}`,aka,"center");c.restore();
+  if(sample){c.save();c.translate(Wd/2,Ht/2);c.rotate(-.35);t("SAMPLE",0,0,`700 180px ${GOTH}`,"rgba(179,18,31,.10)","center");c.restore()}
+  // 区切り
+  c.fillStyle=line;c.fillRect(60,566,Wd-120,2);
+  // 六角形
+  t("エネルギーの六角形",60,618,`700 24px ${GOTH}`,ink);
+  const cx=245,cy=826,R=136,dirs=HEX.map((_,i)=>{const a=-Math.PI/2+i*Math.PI/3;return [Math.cos(a),Math.sin(a)]});
+  [.25,.5,.75,1].forEach(f=>{c.beginPath();dirs.forEach((p,i)=>{const x=cx+p[0]*R*f,y=cy+p[1]*R*f;i?c.lineTo(x,y):c.moveTo(x,y)});c.closePath();c.strokeStyle=line;c.lineWidth=f===1?2.5:1.2;c.stroke();if(f===1){c.fillStyle="rgba(255,253,247,.9)";c.fill();c.stroke()}});
+  dirs.forEach(p=>{c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+p[0]*R,cy+p[1]*R);c.strokeStyle=line;c.lineWidth=1.2;c.stroke()});
+  c.beginPath();HEX.forEach((k,i)=>{const f=s[k]/100,x=cx+dirs[i][0]*R*f,y=cy+dirs[i][1]*R*f;i?c.lineTo(x,y):c.moveTo(x,y)});c.closePath();
+  c.fillStyle=tc+"55";c.fill();c.strokeStyle=tc;c.lineWidth=4;c.stroke();
+  HEX.forEach((k,i)=>{const x=cx+dirs[i][0]*(R+40),y=cy+dirs[i][1]*(R+30);t(E[k].code,x,y,`700 22px ${GOTH}`,k===type?tc:ink,"center");t(String(s[k]),x,y+24,`700 18px ${GOTH}`,sub2,"center")});
+  // 高さゲージ
+  const gx=470,gt=672,gb=962,gp=gt+(gb-gt)*(1-pct(s.L,s.A)/100);
+  const gr=c.createLinearGradient(0,gt,0,gb);gr.addColorStop(0,col("--g-cr"));gr.addColorStop(.5,line);gr.addColorStop(1,kin);
+  c.fillStyle=gr;c.beginPath();c.roundRect(gx-7,gt,14,gb-gt,7);c.fill();
+  c.beginPath();c.arc(gx,gp,14,0,Math.PI*2);c.fillStyle="#fff";c.fill();c.lineWidth=5;c.strokeStyle=ink;c.stroke();
+  t("BLE",gx,gt-14,`700 18px ${GOTH}`,col("--g-cr"),"center");t("BAE",gx,gb+30,`700 18px ${GOTH}`,col("--g-dr-d"),"center");
+  // パラメーター
+  t("パラメーター",560,618,`700 24px ${GOTH}`,ink);
+  const rows=[...["D","C","K","O","V","H","L","A"].map(k=>[E[k].code,s[k],col(E[k].c.replace("--","--"))]),["燃焼",s.F,col("--g-dr")]];
+  rows.forEach(([lab,v,cc],i)=>{const y=664+i*36;
+    t(lab,560,y+8,`700 20px ${GOTH}`,cc||ink);
+    c.fillStyle=line;c.beginPath();c.roundRect(640,y-6,300,14,7);c.fill();
+    c.fillStyle=cc||ink;c.beginPath();c.roundRect(640,y-6,Math.max(14,300*v/100),14,7);c.fill();
+    t(String(v),1020,y+9,`700 20px ${GOTH}`,ink,"right")});
+  // 伸び代・似ている人
+  const adv=advice(r)[0];
+  c.fillStyle="#f3ecdb";c.beginPath();c.roundRect(60,1010,Wd-120,150,14);c.fill();c.fillStyle=aka;c.fillRect(60,1010,8,150);
+  t("伸び代",96,1052,`700 20px ${GOTH}`,aka);
+  t(adv[1],190,1053,`700 30px ${MINCHO}`,ink);
+  c.font=`400 22px ${GOTH}`;c.fillStyle=sub2;wrapText(c,adv[2],96,1094,Wd-200,32,2);
+  const look=LOOK[type].map(x=>x[0]).join("、");
+  t("似ている人",60,1210,`700 20px ${GOTH}`,aka);
+  c.font=`700 24px ${GOTH}`;c.fillStyle=ink;wrapText(c,look,180,1211,Wd-240,32,1);
+  // 下の帯
+  c.fillStyle=kuro;c.fillRect(0,Ht-96,Wd,96);c.fillStyle=kin;c.fillRect(0,Ht-96,Wd,4);
+  t("あなたのディックの大きさも測ってみよう ｜ 登録不要・無料",60,Ht-38,`700 24px ${GOTH}`,"#e9dfc8");
+  t("#BDE理論",Wd-60,Ht-38,`700 30px ${MINCHO}`,kinL,"right");
+  return cv.toDataURL("image/png");
+}
+function shareText(r){
+  const {s,type,h}=r;
+  return `【BDE理論学会 認定】私は${E[type].code}型「${TYPES[type].name}」（${HEIGHT[h].label}）でした。\nBDE ${s.D} / BCE ${s.C} / BKE ${s.K} / BOE ${s.O} / BVE ${s.V} / BHE ${s.H}\nあなたのディックの大きさも測ってみよう（登録不要）`;
+}
+function shareLinks(r){
+  const txt=shareText(r),u=encodeURIComponent(SITE_URL);
+  return {
+    x:`https://twitter.com/intent/tweet?text=${encodeURIComponent(txt)}&url=${u}&hashtags=${encodeURIComponent("BDE理論")}`,
+    line:`https://social-plugins.line.me/lineit/share?url=${u}&text=${encodeURIComponent(txt)}`,
+    threads:`https://www.threads.net/intent/post?text=${encodeURIComponent(txt+"\n"+SITE_URL+" #BDE理論")}`,
+  };
+}
+
+/* ---------- 理論 ---------- */
+function theory(){
+  const fmt=t=>`${Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
+  $("#th").innerHTML=["D","C","K","O","V","H","L","A"].map(k=>`<div class="it" style="--pc:var(${E[k].c})"><div class="c">${E[k].code}</div><div class="j">${E[k].jp}</div><p>${E[k].desc}</p><a href="${YT}${E[k].t}s" target="_blank" rel="noopener">動画 ${fmt(E[k].t)} から →</a></div>`).join("");
+}
+
+/* ---------- 起動 ---------- */
+theory();staticLists();
+try{const d=JSON.parse(localStorage.getItem("bde_draft")||"null");if(Array.isArray(d)&&d.length===items.length){ans=d;const f=d.findIndex(a=>a==null);page=f<0?PAGES-1:Math.floor(f/PER)}}catch(_){}
+renderPage();updGo();
+let shown=false;
+try{const r=JSON.parse(localStorage.getItem("bde_result")||"null");if(Array.isArray(r)&&r.length===items.length&&r.every(a=>a!=null)){renderResult(score(r),false);shown=true}}catch(_){}
+if(!shown){const smp=items.map(it=>({D:5,C:3,K:4,O:4,V:2,H:3,L:4,A:3,F:5})[it.k]).map((v,i)=>items[i].r?6-v:v);renderResult(score(smp),true)}
+})();
+</script>
+
+</body>
+</html>
