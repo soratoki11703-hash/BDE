@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="雷獣ベテランちのBDE理論を45問で測定。6つの型と8つのエネルギー、命の燃焼度で判定する非公式のパロディ診断です。登録不要・無料。">
+<meta name="description" content="雷獣ベテランちのBDE理論を60問で測定。6つの型と8つのエネルギー、命の燃焼度で判定する非公式のパロディ診断です。登録不要・無料。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="BDE理論 診断｜BDE理論学会（自称）">
-<meta property="og:description" content="やっと、自分のディックの大きさが分かりました。45問・登録不要の非公式パロディ診断。">
+<meta property="og:description" content="やっと、自分のディックの大きさが分かりました。60問・登録不要の非公式パロディ診断。">
 <meta property="og:url" content="https://soratoki11703-hash.github.io/BDE/">
 <meta property="og:image" content="https://soratoki11703-hash.github.io/BDE/images/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -110,6 +110,8 @@ button{font:inherit;cursor:pointer}
 .q.done:hover,.q.done:focus-within{opacity:1}
 .q .t{font-size:clamp(17px,2.2vw,21px);font-weight:700;color:var(--ink);margin:0 auto 20px;max-width:30em}
 .q.miss .t{color:var(--aka)}
+.q.vs .scale .e{width:10em;font-size:14px;line-height:1.45}
+.q.vs .t{color:var(--sub)}
 .scale{display:flex;align-items:center;justify-content:center;gap:clamp(6px,2vw,22px)}
 .scale .e{font-size:clamp(13px,1.6vw,17px);font-weight:700;width:6.5em}
 .scale .e.a{color:var(--agree);text-align:right}
@@ -350,7 +352,7 @@ body.testing .quit{display:inline-block}
   <div class="in">
     <h1>「やっと、自分の<br class="sp"><em>ディックの大きさ</em>が<br class="sp">分かりました」</h1>
     <div class="who">— 診断を受けた人（28歳・根拠のない自信あり）</div>
-    <p>MBTIはもう要りません。たった45問で、あなたの中に眠るBDE・BCE・BKE……全8エネルギーを測定。就活にも恋愛にも、たぶん使えます。</p>
+    <p>MBTIはもう要りません。たった60問で、あなたの中に眠るBDE・BCE・BKE……全8エネルギーを測定。就活にも恋愛にも、たぶん使えます。</p>
     <button class="pill" id="go"><span id="goLbl">授業を受ける（無料）</span> <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 4l6 6-6 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <span class="fine">登録不要・無料・回答はどこにも送信されません ／ ※下ネタではありません。科学でございます。</span>
   </div>
@@ -374,7 +376,7 @@ body.testing .quit{display:inline-block}
 
 <section id="test">
   <div class="in thead"><h2>BDE理論 認定試験</h2><p id="pg">1 / 5 ページ</p></div>
-  <div class="progress"><div class="in"><div class="row"><span class="lbl">バナナ成長率</span><div class="bar"><div class="fill" id="fill"></div></div><span class="ban" id="ban" aria-hidden="true"><svg viewBox="0 0 46 22"><path d="M3 6c6 10 22 14 39 7-2 5-9 8-17 8C14 21 5 15 2 7z" fill="#f1cf3b" stroke="#7a5a10" stroke-width="1.4" stroke-linejoin="round"/><path d="M2 7 1 2.5l3.5 1.8z" fill="#5a4210"/><path d="M42 13l2.5-.8-1 2.6z" fill="#5a4210"/></svg></span><div class="n" id="cnt">0 / 45</div></div></div></div>
+  <div class="progress"><div class="in"><div class="row"><span class="lbl">バナナ成長率</span><div class="bar"><div class="fill" id="fill"></div></div><span class="ban" id="ban" aria-hidden="true"><svg viewBox="0 0 46 22"><path d="M3 6c6 10 22 14 39 7-2 5-9 8-17 8C14 21 5 15 2 7z" fill="#f1cf3b" stroke="#7a5a10" stroke-width="1.4" stroke-linejoin="round"/><path d="M2 7 1 2.5l3.5 1.8z" fill="#5a4210"/><path d="M42 13l2.5-.8-1 2.6z" fill="#5a4210"/></svg></span><div class="n" id="cnt">0 / 60</div></div></div></div>
   <div class="in"><div id="qs"></div>
     <div class="hint" id="hint"></div>
     <div class="tnav"><button class="pill ghost" id="prev">戻る</button><button class="pill green" id="next">次へ</button></div>
@@ -446,19 +448,29 @@ const E={
   A:{code:"BAE",jp:"生々しさ（下）",desc:"生活感、泥臭さ、リアルさ。油断するとエネルギーが下へ流れ出る。",t:3707,c:"--g-dr-d"},
 };
 const Q={
-  D:[["実績がなくても「自分ならいける」と思える。"],["格上の相手にも、物怖じせず意見や反論をぶつけられる。"],["間違っていると思ったら、相手が誰でも「それは違う」とツッコめる。"],["誰にでも勝っていたいと思う。"],["自信がなくて、前に出るのをためらうことが多い。",1]],
-  C:[["いじられると、むしろおいしいと感じる。"],["自分の失敗談やダサい話を、笑いながら話せる。"],["周りから「ほっとけない」「可愛げがある」と言われる。"],["きつい言葉を向けられても、ムキにならず受け流せる。"],["弱みや隙を人に見せるのが怖い。",1]],
-  O:[["優しく接しながらも、気づけば相手を自分のペースに巻き込んでいる。"],["面倒を見ているうちに、周りが自分の言うことを聞くようになっている。"],["自分の存在感で場を包み込める感覚がある。"],["相手を上手にコントロールするほうだ。"],["包み込むように面倒を見るので、母親っぽいと言われる。"]],
-  V:[["人の話を否定せず、最後まで受け止めて聞ける。"],["恋愛や人間関係では、相手に合わせて尽くしてしまうほうだ。"],["相手の感情に引っ張られやすい。"],["自分から動くより、相手に委ねるほうが楽だ。"],["どんな人でも、ひとまず受け入れられる。"]],
-  K:[["強気な面と弱い面を、場面に応じて自在に出し入れできる。"],["初対面の人にも「キャラ」としてすぐ覚えてもらえる。"],["自分の見せ方を、一歩引いた視点でプロデュースしている。"],["何をしていても「この人っぽい」と言われる、よくわからない存在感がある。"],["わざと調子に乗ったり、わざとダサいことをしたりして笑いに変えられる。"]],
-  H:[["性別や年齢を問わず、幅広い人から好かれる。"],["色気より「華」や「ポップさ」で人を惹きつけるタイプだ。"],["自分を嫌っている人をあまり見たことがない。"],["派手に目立っても、いやらしさや嫌味に受け取られにくい。"],["性別をあまり感じさせない魅力があると言われる。"]],
-  L:[["年々、角が取れて落ち着いてきたと感じる。"],["感情をあまり表に出さず、品よく振る舞える。"],["人前では「きちんとした人」として見られている。"],["生活感やドロドロした部分を人に見せない。"],["個人としてより、立場や役割として扱われることが多い。"]],
-  A:[["欲望や本音が、つい生々しく表に出てしまう。"],["生活感やだらしなさを隠さない。"],["勢いで行動して、取り返しがつかなくなったことがある。"],["下品な話や泥臭い話でこそ盛り上がれる。"],["つかんだ勢いやチャンスを、自分で台無しにしてしまうことがある。"]],
-  F:[["ここ半年で、自分のキャラや立ち位置が大きく変わった。"],["最近、自分でも意外なキャラが表に出てくるようになった。"],["昔の自分を知る人に「変わったね」と言われる。"],["ここ数年、自分はほとんど変わっていないと思う。",1],["強気でいく時期と、いじられる時期を行ったり来たりしている。"]],
+  D:[["実績がなくても「自分ならいける」と思える。"],["格上の相手にも、物怖じせず意見や反論をぶつけられる。"],["間違っていると思ったら、相手が誰でも「それは違う」とツッコめる。"],["勝ち負けには、あまりこだわらないほうだ。",1],["自信がなくて、前に出るのをためらうことが多い。",1]],
+  C:[["いじられると、むしろおいしいと感じる。"],["自分の失敗談やダサい話を、笑いながら話せる。"],["周りから「ほっとけない」「可愛げがある」と言われる。"],["弱みや隙を人に見せるのが怖い。",1],["いじられると、ついムキになって言い返してしまう。",1]],
+  O:[["優しく接しながらも、気づけば相手を自分のペースに巻き込んでいる。"],["面倒を見ているうちに、周りが自分の言うことを聞くようになっている。"],["包み込むように面倒を見るので、母親っぽいと言われる。"],["人の世話を焼くより、自分のことに集中していたい。",1],["相手の行動には口出しせず、好きにさせておくほうだ。",1]],
+  V:[["人の話を否定せず、最後まで受け止めて聞ける。"],["恋愛や人間関係では、相手に合わせて尽くしてしまうほうだ。"],["自分から動くより、相手に委ねるほうが楽だ。"],["合わない人のことは、はっきり拒むほうだ。",1],["相手に振り回されることは、ほとんどない。",1]],
+  K:[["強気な面と弱い面を、場面に応じて自在に出し入れできる。"],["自分の見せ方を、一歩引いた視点でプロデュースしている。"],["わざと調子に乗ったり、わざとダサいことをしたりして笑いに変えられる。"],["どんな場面でも、素の自分のまま振る舞うほうだ。",1],["自分が周りからどんなキャラに見えているか、よく分からない。",1]],
+  H:[["性別や年齢を問わず、幅広い人から好かれる。"],["派手に目立っても、いやらしさや嫌味に受け取られにくい。"],["性別をあまり感じさせない魅力があると言われる。"],["好き嫌いがはっきり分かれるタイプだと言われる。",1],["目立つと、なぜか反感を買いやすい。",1]],
+  L:[["年々、角が取れて落ち着いてきたと感じる。"],["感情をあまり表に出さず、品よく振る舞える。"],["個人としてより、立場や役割として扱われることが多い。"],["感情がすぐ顔や態度に出てしまう。",1],["自分の好き嫌いや偏りは、かなり強いほうだ。",1]],
+  A:[["欲望や本音が、つい生々しく表に出てしまう。"],["生活感やだらしなさを隠さない。"],["下品な話や泥臭い話でこそ盛り上がれる。"],["人前では、だらしない部分をきっちり隠せる。",1],["勢いで行動して後悔することは、ほとんどない。",1]],
+  F:[["ここ半年で、自分のキャラや立ち位置が大きく変わった。"],["最近、自分でも意外なキャラが表に出てくるようになった。"],["強気でいく時期と、いじられる時期を行ったり来たりしている。"],["ここ数年、自分はほとんど変わっていないと思う。",1],["昔の自分を知る人に会うと、「変わらないね」と言われる。",1]],
+};
+// ペアを直接比べる設問（左がペアの前、右が後。fは左右を入れ替えて出題）
+const CQ={
+  DO:[["人を動かすときは","正面からぶつかって引っ張る","包み込んで、気づけば巻き込んでいる"],["自信の出どころは","前に出て勝つこと","周りの面倒を見て頼られること",1],["揉めたときは","白黒はっきり言い切る","やわらかく丸め込む"],["グループでの役回りは","先頭に立つ切り込み隊長","みんなを抱える母親役",1],["言われてうれしいのは","「かっこいい」","「頼りになる」"]],
+  CV:[["からかわれたら","いじられ役としておいしくする","静かに受け止めて流す",1],["人に好かれる理由は","隙があってツッコみやすいから","何でも受け入れてくれるから"],["失敗したら","笑いのネタにして話す","相手を責めずに自分で引き受ける",1],["恋愛では","振り回されて、いじられる側","尽くして支える側"],["言われがちなのは","「ほっとけない」","「優しすぎる」",1]],
+  KH:[["人気の理由は","キャラの面白さと出し入れの上手さ","華やかさとポップさ"],["目立ち方は","わざと演じて笑いを取る","そこにいるだけで場が華やぐ",1],["近いのは","何をしても「この人っぽい」存在感","性別を超えたアイドル感"],["好かれ方は","クセになって、一部に熱狂的","老若男女、誰にでも",1],["自分の魅力は","計算して作り上げたもの","自然とにじみ出るもの"]],
 };
 const ORDER=["D","C","K","O","V","H","L","A","F"];
-const items=[];for(let i=0;i<5;i++) ORDER.forEach(k=>items.push({k,t:Q[k][i][0],r:!!Q[k][i][1]}));
-const PER=9,PAGES=Math.ceil(items.length/PER);
+const items=[];
+for(let i=0;i<5;i++){
+  ORDER.forEach(k=>items.push({k,t:Q[k][i][0],r:!!Q[k][i][1]}));
+  ["DO","CV","KH"].forEach(p=>{const c=CQ[p][i];items.push({k:p,pair:1,t:c[0],a:c[1],b:c[2],f:!!c[3]})});
+}
+const PER=10,PAGES=Math.ceil(items.length/PER);
 let ans=new Array(items.length).fill(null),page=0;
 
 /* 六角形の頂点＝6タイプ */
@@ -499,19 +511,38 @@ const clamp=v=>Math.max(0,Math.min(100,v));
 const pct=(a,b)=>a+b===0?50:a/(a+b)*100;
 
 function score(a){
+  // 何でも「そう思う」と答えるクセを、正逆そろった設問の平均から推定して差し引く
+  const reg=items.map((it,i)=>it.pair?null:(a[i]==null?3:a[i])).filter(x=>x!=null);
+  const acq=reg.reduce((x,y)=>x+y,0)/reg.length-3;
   const raw={};
   for(const k of ORDER){
-    const v=items.map((it,i)=>it.k===k?(a[i]==null?3:(it.r?6-a[i]:a[i])):null).filter(x=>x!=null);
-    raw[k]=v.reduce((x,y)=>x+y,0)/v.length/6*100;
+    const v=items.map((it,i)=>{if(it.k!==k)return null;const x=a[i]==null?3:a[i];return (it.r?6-x:x)-(it.r?-acq:acq)}).filter(x=>x!=null);
+    raw[k]=clamp(v.reduce((x,y)=>x+y,0)/v.length/6*100);
+  }
+  // ペア比較：+なら前（D・C・K）寄り、−なら後（O・V・H）寄り。-3〜+3
+  const con={};
+  for(const p of ["DO","CV","KH"]){
+    const v=items.map((it,i)=>{if(it.k!==p)return null;const x=a[i]==null?3:a[i];return (it.f?6-x:x)-3}).filter(x=>x!=null);
+    con[p]=v.reduce((x,y)=>x+y,0)/v.length;
   }
   const s={D:raw.D,C:raw.C,O:raw.O,V:raw.V,L:raw.L,A:raw.A,F:raw.F};
   // BKE/BHE は自己評価に「変換量（両極の小さいほう）」を加味
   s.K=clamp(.65*raw.K+.35*Math.min(raw.D,raw.C));
   s.H=clamp(.65*raw.H+.35*Math.min(raw.O,raw.V));
   for(const k in s) s[k]=Math.round(s[k]);
-  const rank=[...PLANE].sort((x,y)=>s[y]-s[x]);
+  // 2段階判定：①攻め・受け・キャラのどれか ②ペアのどちらか（ペア比較の設問を重視）
+  const G=[["D","O","DO"],["C","V","CV"],["K","H","KH"]];
+  const gs=G.map(([x,y])=>s[x]+s[y]);
+  const gi=gs.indexOf(Math.max(...gs));
+  const pick=([x,y,p])=>{const d=(s[x]-s[y])+10*con[p];return [d>=0?x:y,d>=0?y:x,Math.abs(d)]};
+  const [type,partner,margin]=pick(G[gi]);
+  const gs2=[...gs].sort((x,y)=>y-x), ggap=(gs2[0]-gs2[1])/2;
+  // サブ：ペア内が僅差ならペアの相手、そうでなければ2番目のグループの代表
+  const g2=gs.indexOf(gs2[1]===gs2[0]?gs.find((v,i)=>i!==gi&&v===gs2[1]):gs2[1]);
+  const sub=margin<8?partner:pick(G[g2===gi?(gi+1)%3:g2])[0];
+  const close=margin<8||ggap<4;
   const d=s.L-s.A, h=d>=10?"L":d<=-10?"A":"M";
-  return {s,type:rank[0],sub:rank[1],h};
+  return {s,type,sub,h,close,con};
 }
 function advice(r){
   const {s,type}=r,o=[["あなたの伸び代",...TYPES[type].grow]];
@@ -530,11 +561,17 @@ const IMG=(t,kind,cls="")=>`<img class="${cls}" src="images/${E[t].code.toLowerC
 const SZ=[52,44,36,28,36,44,52];
 function renderPage(){
   const st=page*PER,en=Math.min(st+PER,items.length);let h="";
+  const LB=["とてもそう思う","そう思う","ややそう思う","どちらでもない","ややそう思わない","そう思わない","まったくそう思わない"];
   for(let i=st;i<en;i++){
-    h+=`<div class="q${ans[i]!=null?" done":""}" id="q${i}"><p class="t">${items[i].t}</p><div class="scale" role="radiogroup" aria-label="${items[i].t}"><span class="e a">そう思う</span>`;
-    for(let j=0;j<7;j++){const v=6-j;const c=j<3?"--agree":j>3?"--disagree":"--mid";
-      h+=`<label class="o" style="--c:var(${c})"><input type="radio" name="a${i}" id="a${i}_${v}" value="${v}" ${ans[i]===v?"checked":""} aria-label="${["とてもそう思う","そう思う","ややそう思う","どちらでもない","ややそう思わない","そう思わない","まったくそう思わない"][j]}"><span style="--s:${SZ[j]}"></span></label>`}
-    h+=`<span class="e d">そう思わない</span></div></div>`;
+    const it=items[i];
+    // ペア比較は左右に選択肢を出す（fなら左右を入れ替え）
+    const L=it.pair?(it.f?it.b:it.a):"そう思う", R=it.pair?(it.f?it.a:it.b):"そう思わない";
+    const title=it.pair?`${it.t}、どちらに近い？`:it.t;
+    h+=`<div class="q${ans[i]!=null?" done":""}${it.pair?" vs":""}" id="q${i}"><p class="t">${title}</p><div class="scale" role="radiogroup" aria-label="${title}"><span class="e a">${L}</span>`;
+    for(let j=0;j<7;j++){const v=6-j;const c=it.pair?(j<3?"--agree":j>3?"--g-cr":"--mid"):(j<3?"--agree":j>3?"--disagree":"--mid");
+      const al=it.pair?(j<3?`左「${L}」に${["とても","",'やや'][j]}近い`:j>3?`右「${R}」に${['やや',"","とても"][j-4]}近い`:"どちらとも言えない"):LB[j];
+      h+=`<label class="o" style="--c:var(${c})"><input type="radio" name="a${i}" id="a${i}_${v}" value="${v}" ${ans[i]===v?"checked":""} aria-label="${al}"><span style="--s:${SZ[j]}"></span></label>`}
+    h+=`<span class="e d"${it.pair?' style="color:var(--g-cr)"':""}>${R}</span></div></div>`;
   }
   $("#qs").innerHTML=h;
   $("#pg").textContent=`${page+1} / ${PAGES} ページ`;
@@ -662,7 +699,7 @@ function renderResult(r,sample){
   $("#result").innerHTML=`
   <div class="rhead" style="--gbg:var(--kin-pale);--gc:${gc}"><div class="in"><div class="hanko" aria-label="BDE理論学会 認定">BDE理論学会<b>認定</b>${E[type].code}型</div>
     <div>${sample?`<span class="badge">サンプル判定：試験を終えると、あなたの結果に置き換わります</span>`:`<span class="badge">あなたの判定結果</span>`}
-      <div class="you">あなたのタイプは</div><h2>${T.name}</h2><div class="code">${E[type].code}型<small>${H.label}・サブ ${E[sub].code}</small></div><p class="catch">${T.catch}</p></div>
+      <div class="you">あなたのタイプは</div><h2>${T.name}</h2><div class="code">${E[type].code}型<small>${H.label}・サブ ${E[sub].code}${r.close?"・僅差":""}</small></div><p class="catch">${T.catch}</p></div>
     ${IMG(type,"scene","fig")}
   </div><svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" style="background:var(--kin-pale)"><path d="M0,30 C240,60 480,0 720,24 C960,48 1200,10 1440,30 L1440,60 L0,60Z" fill="#faf6ec"/></svg></div>
   <div class="in"><div class="rbody" style="--gbg:${gbg};--gc:${gc}">
@@ -824,7 +861,7 @@ try{const d=JSON.parse(localStorage.getItem("bde_draft")||"null");if(Array.isArr
 renderPage();updGo();
 let shown=false;
 try{const r=JSON.parse(localStorage.getItem("bde_result")||"null");if(Array.isArray(r)&&r.length===items.length&&r.every(a=>a!=null)){renderResult(score(r),false);shown=true}}catch(_){}
-if(!shown){const smp=items.map(it=>({D:5,C:3,K:4,O:4,V:2,H:3,L:4,A:3,F:5})[it.k]).map((v,i)=>items[i].r?6-v:v);renderResult(score(smp),true)}
+if(!shown){const T={D:5,C:3,K:4,O:4,V:2,H:3,L:4,A:3,F:5},CT={DO:1.5,CV:0,KH:.5};const smp=items.map(it=>{if(it.pair){const v=Math.round(3+CT[it.k]);return it.f?6-v:v}const v=T[it.k];return it.r?6-v:v});renderResult(score(smp),true)}
 })();
 </script>
 
