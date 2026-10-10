@@ -424,7 +424,7 @@ body.testing .quit{display:inline-block}
     </div>
   </div>
   <ul class="co" id="co"></ul>
-  <p class="fineprint">共同研究者の担当は、動画内の発言（自動字幕）から読み取ったものです。</p>
+  
 </div></section>
 
 <footer><div class="in">
@@ -669,9 +669,9 @@ function renderResult(r,sample){
     <div class="box wide"><h3>${E[type].code}型「${T.name}」とは</h3><p class="desc">${T.desc}</p></div>
     <div class="box"><h3>エネルギー空間（3D）</h3><p class="lead">型の色の六角錐が「あなたの形」です。底面の六角形が6つのエネルギー、頂点（赤い点）の高さがBLE−BAEで、上ならリップ寄り、下ならアナル寄り。差が見えやすいように、縦は±40を上下の端にして強調しています。灰色の枠は満点の形です。ドラッグで回せます。</p><canvas class="space" id="space3d" role="img" aria-label="エネルギー空間の立体図。${E[type].code}がいちばん強く、高さは${H.label}"></canvas></div>
     <div class="box"><h3>パラメーター</h3><p class="lead">0〜100で表示しています。色の付いた行があなたの型です。</p><div class="params">${rows}</div></div>
-    <div class="box"><h3>高さと燃焼度</h3><p class="lead">六角形の外にある2つの指標です。</p>${heightBar}<p class="lead" style="margin-top:-8px">${H.desc}</p><p class="lipnote">リップを極めた例：タモリ、黒柳徹子 <a href="${YT}3619s" target="_blank" rel="noopener">動画 1:00:19 →</a></p>${fireBar}<p class="lead" style="margin:-8px 0 0">エネルギー空間の中で、あなたの点がどれだけ速く動いているか。速いほど命が燃えています。</p></div>
+    <div class="box"><h3>高さと燃焼度</h3><p class="lead">六角形の外にある2つの指標です。</p>${heightBar}<p class="lead" style="margin-top:-8px">${H.desc}</p>${fireBar}<p class="lead" style="margin:-8px 0 0">エネルギー空間の中で、あなたの点がどれだけ速く動いているか。速いほど命が燃えています。</p></div>
     <div class="box"><h3>伸び代</h3><p class="lead">次に点を動かす方向。</p><ul class="adv">${advice(r).map(a=>`<li><small>${a[0]}</small><b>${a[1]}</b>${a[2]}</li>`).join("")}</ul></div>
-    <div class="box wide"><h3>あなたに似ている人</h3><p class="lead">動画の中で、${E[type].code}が強いと分析されていた人たちです（動画内のネタとしての分析で、本人の性格を断定するものではありません）。</p><ul class="look">${lookHTML(type)}</ul></div>
+    <div class="box wide"><h3>あなたに似ている人</h3><p class="lead">動画に出演した雷獣・コムドットのメンバーのうち、${E[type].code}が強いと分析されていた人です（動画内のネタとしての分析で、本人の性格を断定するものではありません）。</p><ul class="look">${lookHTML(type)}</ul></div>
     <div class="box wide" id="shareBox"><h3>分析シートをシェア</h3><p class="lead">登録は一切不要です。回答はこの端末の中だけで計算され、どこにも送信されません。この画面をそのままスクショして投稿してもOKです。</p>
       <div class="sheetwrap">
         <figure class="sheet"><img id="sheetImg" alt="BDE理論学会 認定 分析シート（${E[type].code}型「${T.name}」）" width="1080" height="1350"><figcaption>スマホは画像を長押し、パソコンは右クリック →「画像を保存」で保存できます。</figcaption></figure>
@@ -700,16 +700,17 @@ function renderResult(r,sample){
 /* ---------- 似ている人・参考資料・共同研究者 ---------- */
 const ts=t=>`${t>=3600?Math.floor(t/3600)+":"+String(Math.floor(t%3600/60)).padStart(2,"0"):Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
 const LOOK={
-  D:[["ひゅうが（コムドット）","BDE一本で登り詰めた男。置き配を受け取る姿すら許せない",3105],["やまと（コムドット）","X（旧Twitter）での発信は、常にBDEだった",1190]],
+  D:[["ひゅうが（コムドット）","BDE一本で登り詰めた男。置き配を受け取る姿すら許せない",3105],["やまと（コムドット）","X（旧Twitter）での発信は、常にBDEだった",1190],["ベテランち（雷獣）","もともとは低いところにある、生々しいBDEだった",3733]],
   C:[["しがない数学者（雷獣）","もともとは完全な乳首人間だった",2566],["あむぎり（コムドット）","乳首エナジーしか見えないからこそ、つい触りたくなる",3280]],
-  K:[["ヒカキン","麦茶を作るだけで成立する、BKEの限界突破",1380],["大森元貴（Mrs. GREEN APPLE）","生まれながらのBDEでもBCEでもない、球体",1537],["ニシダ（ラランド）","金玉で説明できるコンビの片割れ",1873]],
-  O:[["サーヤ（ラランド）","普段は見せないが、DよりかOより",1885]],
-  V:[["あのちゃん","Vを押し出せるのは、Oがあるから",1944]],
+  K:[["ゆうた（コムドット）","ファンから見たBKE・BHEが大きい。永遠の人気1位",3401]],
+  O:[],
+  V:[["かべ（雷獣）","無職になってから、BCE・BVEに寄りすぎている（本人談）",2966]],
   H:[["ゆうた（コムドット）","中性的な魅力で、ファンからのBH・BKが大きい",3336]],
 };
 const CHAP=[[154,"BDE（ビッグ・ディック・エナジー）とは"],[667,"BCE（乳首）の発見"],[841,"BKE（金玉）とスター性"],[1666,"女性側のエネルギー（BVE・BOE・BHE）"],[3542,"立体化：BLE（リップ）とBAE（アナル）"],[3953,"命の燃やし方＝点の速さ"]];
-const CO=[["やまと（コムドット）","聞き手。最初にこの理論にハマった人",278],["しがない数学者（雷獣）","「命の燃やし方＝エネルギー空間を動く点の速さ」を考案",3953],["田村さん（東大YouTuber）","女性側のエネルギー（BVE・BOE・BHE）を一緒に考案",1620],["今井（雷獣）","BLE（ビッグ・リップ・エナジー）を考案",4117],["かべ（雷獣）","BAE（ビッグ・アナル・エナジー）を考案",4113]];
+const CO=[["やまと（コムドット）","聞き手。最初にこの理論にハマった人",278],["しがない数学者（雷獣）","「命の燃やし方＝エネルギー空間を動く点の速さ」を考案",3953]];
 function lookHTML(type){
+  if(!LOOK[type].length) return `<li><div><span>動画に出演したメンバーの中には、${E[type].code}が強いと分析された人はいませんでした。あなたが第1号かもしれません。</span></div></li>`;
   return LOOK[type].map(([n,d,t])=>`<li><span class="av">${n[0]}</span><div><b>${n}</b><span>${d}</span><a href="${YT}${t}s" target="_blank" rel="noopener">動画 ${ts(t)} →</a></div></li>`).join("");
 }
 function staticLists(){
@@ -789,7 +790,7 @@ async function makeSheet(r,sample){
   t("伸び代",96,1052,`700 20px ${GOTH}`,aka);
   t(adv[1],190,1053,`700 30px ${MINCHO}`,ink);
   c.font=`400 22px ${GOTH}`;c.fillStyle=sub2;wrapText(c,adv[2],96,1094,Wd-200,32,2);
-  const look=LOOK[type].map(x=>x[0]).join("、");
+  const look=LOOK[type].map(x=>x[0]).join("、")||"該当者なし（あなたが第1号）";
   t("似ている人",60,1210,`700 20px ${GOTH}`,aka);
   c.font=`700 24px ${GOTH}`;c.fillStyle=ink;wrapText(c,look,180,1211,Wd-240,32,1);
   // 下の帯
