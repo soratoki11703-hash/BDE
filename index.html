@@ -340,6 +340,14 @@ body.testing .quit{display:inline-block}
 .sl .tr i{position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:#fff;border:5px solid var(--pc);transform:translate(-50%,-50%);box-sizing:border-box}
 .sl .en{display:flex;justify-content:space-between;font-size:12px;color:var(--sub);font-weight:700}
 
+.gbig{display:flex;align-items:baseline;justify-content:center;gap:8px;margin-top:4px}
+.gbig span{font-size:15px;color:var(--sub);font-weight:700}
+.gbig b{font-family:var(--display);font-size:clamp(30px,5vw,42px);color:var(--ink)}
+.gdesc{font-size:14px;color:var(--sub);margin-bottom:14px}
+.between{max-width:36em;margin:14px auto 0;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:14px;text-align:left;line-height:1.7}
+.between b{color:var(--aka)}
+.between span{font-weight:700}
+
 @media (max-width:860px){
   .steps,.laws{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -527,6 +535,8 @@ const TYPES={
      desc:"色気より華やかさやポップさで人を惹きつける人。性別や年齢を問わず好かれ、嫌っている人をあまり見かけない。BOEとBVEを行き来した結果として育つ、女性側のBKEにあたる魅力です。",
      grow:["意外な尖りを見せる","ニュートラルな好感度に、BDEやBOEの尖りが加わると無敵になります。"]},
 };
+const GN={D:"攻め",O:"攻め",C:"受け",V:"受け",K:"キャラ",H:"キャラ"};
+const GDESC={"攻め":"根拠のない自信で前に出る","受け":"受け止めて、いじられる","キャラ":"変換を重ねて貯まった魅力"};
 const PAIRS=[
   {name:"攻め",sub:"根拠のない自信で前に出る",keys:["D","O"],bg:"--aka-pale",c:"--aka"},
   {name:"受け",sub:"受け止めて、いじられる",keys:["C","V"],bg:"--kin-pale",c:"--kin"},
@@ -740,11 +750,11 @@ function renderResult(r,sample){
   const P=k=>prow(k,E[k].code,E[k].jp,s[k],"控えめ","強い");
   const rows=`<div class="pg">六角形（6つのエネルギー）</div>${["D","C","K","O","V","H"].map(P).join("")}<div class="pg">高さ</div>${["L","A"].map(P).join("")}<div class="pg">燃焼</div>${prow("F","燃焼","命の燃焼度",s.F,"静止","高速で変化")}`;
   const SL=shareLinks(r);
-  const share=`【BDE理論学会 認定】${E[type].code}型「${T.name}」（${H.label}）\nサブ：${E[sub].code}\nBDE ${s.D} / BCE ${s.C} / BKE ${s.K}\nBOE ${s.O} / BVE ${s.V} / BHE ${s.H}\nBLE ${s.L} / BAE ${s.A} / 燃焼度 ${s.F}`;
+  const share=`【BDE理論学会 認定】${GN[type]}グループ ${E[type].code}型「${T.name}」（${H.label}）\nサブ：${E[sub].code}\nBDE ${s.D} / BCE ${s.C} / BKE ${s.K}\nBOE ${s.O} / BVE ${s.V} / BHE ${s.H}\nBLE ${s.L} / BAE ${s.A} / 燃焼度 ${s.F}`;
   $("#result").innerHTML=`
   <div class="rhead" style="--gbg:var(--kin-pale);--gc:${gc}"><div class="in"><div class="hanko" aria-label="BDE理論学会 認定">BDE理論学会<b>認定</b>${E[type].code}型</div>
     <div>${sample?`<span class="badge">サンプル判定：試験を終えると、あなたの結果に置き換わります</span>`:`<span class="badge">あなたの判定結果</span>`}
-      <div class="you">あなたのタイプは</div><h2>${T.name}</h2><div class="code">${E[type].code}型<small>${H.label}・サブ ${E[sub].code}${r.close?"・僅差":""}</small></div><p class="catch">${T.catch}</p></div>
+      <div class="gbig"><span>あなたは</span><b>${GN[type]}</b><span>グループ</span></div><div class="gdesc">${GDESC[GN[type]]}</div><div class="you">その中でも、あなたの型は</div><h2>${T.name}</h2><div class="code">${E[type].code}型<small>${H.label}・サブ ${E[sub].code}</small></div><p class="catch">${T.catch}</p>${r.close?`<div class="between"><b>判定は僅差です。</b>あなたは <span style="color:var(--t-${type})">${E[type].code}型「${T.name}」</span> と <span style="color:var(--t-${sub})">${E[sub].code}型「${TYPES[sub].name}」</span> のあいだにいます。受け直すと入れ替わることがありますが、どちらもあなたの姿です。</div>`:""}</div>
     ${IMG(type,"scene","fig")}
   </div><svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" style="background:var(--kin-pale)"><path d="M0,30 C240,60 480,0 720,24 C960,48 1200,10 1440,30 L1440,60 L0,60Z" fill="#faf6ec"/></svg></div>
   <div class="in"><div class="rbody" style="--gbg:${gbg};--gc:${gc}">
@@ -829,11 +839,11 @@ async function makeSheet(r,sample){
   c.fillStyle=tbg;c.beginPath();c.roundRect(60,186,340,340,22);c.fill();
   try{const im=await loadImg(`images/${E[type].code.toLowerCase()}-card.jpg`);c.save();c.beginPath();c.roundRect(60,186,340,340,22);c.clip();c.globalCompositeOperation="multiply";c.drawImage(im,60,186,340,340);c.restore()}catch(_){}
   // 型の名前
-  t("あなたの型は",440,232,`700 26px ${GOTH}`,sub2);
+  t(`${GN[type]}グループ ／ あなたの型は`,440,232,`700 26px ${GOTH}`,sub2);
   c.font=`700 76px ${MINCHO}`;const nm=T.name;let fs=76;while(c.measureText(nm).width>560&&fs>48){fs-=4;c.font=`700 ${fs}px ${MINCHO}`}
   t(nm,436,322,`700 ${fs}px ${MINCHO}`,tc);
   t(`${E[type].code}型`,440,384,`700 40px ${MINCHO}`,ink);
-  t(`${H.label} ・ サブ ${E[sub].code}`,580,382,`700 24px ${GOTH}`,sub2);
+  t(`${H.label} ・ ${r.close?`${E[sub].code}型とのあいだ`:`サブ ${E[sub].code}`}`,580,382,`700 24px ${GOTH}`,sub2);
   c.font=`700 26px ${GOTH}`;c.fillStyle=ink;wrapText(c,T.catch,440,440,560,38,2);
   // ハンコ
   c.save();c.translate(950,470);c.rotate(-.24);c.strokeStyle=aka;c.lineWidth=5;c.globalAlpha=.88;
@@ -883,7 +893,7 @@ async function makeSheet(r,sample){
 }
 function shareText(r){
   const {s,type,h}=r;
-  return `【BDE理論学会 認定】私は${E[type].code}型「${TYPES[type].name}」（${HEIGHT[h].label}）でした。\nBDE ${s.D} / BCE ${s.C} / BKE ${s.K} / BOE ${s.O} / BVE ${s.V} / BHE ${s.H}\nあなたのディックの大きさも測ってみよう（登録不要）`;
+  return `【BDE理論学会 認定】私は${GN[type]}グループの${E[type].code}型「${TYPES[type].name}」${r.close?`（${E[r.sub].code}型とのあいだ）`:""}でした。${HEIGHT[h].label}。\nBDE ${s.D} / BCE ${s.C} / BKE ${s.K} / BOE ${s.O} / BVE ${s.V} / BHE ${s.H}\nあなたのディックの大きさも測ってみよう（登録不要）`;
 }
 function shareLinks(r){
   const txt=shareText(r),u=encodeURIComponent(SITE_URL);
