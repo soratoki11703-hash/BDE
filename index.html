@@ -303,6 +303,19 @@ body.testing .quit{display:inline-block}
   .q{padding-block:24px}
 }
 
+/* パラメーター */
+.params{display:flex;flex-direction:column}
+.pg{font-size:12px;font-weight:700;color:var(--sub);margin:14px 0 4px;letter-spacing:.04em}
+.pg:first-child{margin-top:0}
+.pr{display:grid;grid-template-columns:8.6em minmax(0,1fr) 2.4em;align-items:center;gap:12px;padding:7px 10px;border-radius:8px}
+.pr.me{background:color-mix(in srgb,var(--pc) 12%,transparent)}
+.pl{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.pl b{font-family:var(--latin);font-size:17px;color:var(--pc)}
+.pl span{font-size:12px;color:var(--sub)}
+.pb{height:12px;border-radius:99px;background:var(--line);overflow:hidden}
+.pb i{display:block;height:100%;border-radius:99px;background:var(--pc)}
+.pv{font-family:var(--latin);font-size:22px;font-weight:500;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+
 @media (max-width:860px){
   .steps,.laws{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -642,7 +655,8 @@ function renderResult(r,sample){
   const hp=pct(s.L,s.A);
   const heightBar=bar("高さ","--g-cr",hp,"リップ（BLE）","アナル（BAE）",`${H.label}（BLE ${s.L} / BAE ${s.A}）`);
   const fireBar=`<div class="trait" style="--tc:var(--g-dr)"><div class="top">命の燃焼度：<b>${s.F}</b></div><div class="bar"><i style="left:0;width:${s.F}%"></i><u style="left:${s.F}%"></u></div><div class="ends"><span>静止</span><span>高速で変化</span></div></div>`;
-  const rows=["D","C","K","O","V","H","L","A"].map(k=>`<tr style="--pc:var(${E[k].c})${k===type?";background:var(--t-"+k+"-bg)":""}"><td class="k">${E[k].code}</td><td class="j">${E[k].jp}</td><td><div class="b"><i style="width:${s[k]}%"></i></div></td><td class="v">${s[k]}</td></tr>`).join("")+`<tr style="--pc:var(--g-dr)"><td class="k">燃焼</td><td class="j">命の燃焼度</td><td><div class="b"><i style="width:${s.F}%"></i></div></td><td class="v">${s.F}</td></tr>`;
+  const prow=k=>`<div class="pr${k===type?" me":""}" style="--pc:var(${E[k].c})"><div class="pl"><b>${E[k].code}</b><span>${E[k].jp}</span></div><div class="pb"><i style="width:${s[k]}%"></i></div><div class="pv">${s[k]}</div></div>`;
+  const rows=`<div class="pg">六角形（6つのエネルギー）</div>${["D","C","K","O","V","H"].map(prow).join("")}<div class="pg">高さ</div>${["L","A"].map(prow).join("")}<div class="pg">燃焼</div><div class="pr" style="--pc:var(--g-dr)"><div class="pl"><b>燃焼</b><span>命の燃焼度</span></div><div class="pb"><i style="width:${s.F}%"></i></div><div class="pv">${s.F}</div></div>`;
   const SL=shareLinks(r);
   const share=`【BDE理論学会 認定】${E[type].code}型「${T.name}」（${H.label}）\nサブ：${E[sub].code}\nBDE ${s.D} / BCE ${s.C} / BKE ${s.K}\nBOE ${s.O} / BVE ${s.V} / BHE ${s.H}\nBLE ${s.L} / BAE ${s.A} / 燃焼度 ${s.F}`;
   $("#result").innerHTML=`
@@ -654,8 +668,8 @@ function renderResult(r,sample){
   <div class="in"><div class="rbody" style="--gbg:${gbg};--gc:${gc}">
     <div class="box wide"><h3>${E[type].code}型「${T.name}」とは</h3><p class="desc">${T.desc}</p></div>
     <div class="box"><h3>エネルギー空間（3D）</h3><p class="lead">型の色の六角錐が「あなたの形」です。底面の六角形が6つのエネルギー、頂点（赤い点）の高さがBLE−BAEで、上ならリップ寄り、下ならアナル寄り。差が見えやすいように、縦は±40を上下の端にして強調しています。灰色の枠は満点の形です。ドラッグで回せます。</p><canvas class="space" id="space3d" role="img" aria-label="エネルギー空間の立体図。${E[type].code}がいちばん強く、高さは${H.label}"></canvas></div>
+    <div class="box"><h3>パラメーター</h3><p class="lead">0〜100で表示しています。色の付いた行があなたの型です。</p><div class="params">${rows}</div></div>
     <div class="box"><h3>高さと燃焼度</h3><p class="lead">六角形の外にある2つの指標です。</p>${heightBar}<p class="lead" style="margin-top:-8px">${H.desc}</p><p class="lipnote">リップを極めた例：タモリ、黒柳徹子 <a href="${YT}3619s" target="_blank" rel="noopener">動画 1:00:19 →</a></p>${fireBar}<p class="lead" style="margin:-8px 0 0">エネルギー空間の中で、あなたの点がどれだけ速く動いているか。速いほど命が燃えています。</p></div>
-    <div class="box"><h3>パラメーター</h3><p class="lead">各エネルギーを0〜100で表示しています。</p><table class="p">${rows}</table></div>
     <div class="box"><h3>伸び代</h3><p class="lead">次に点を動かす方向。</p><ul class="adv">${advice(r).map(a=>`<li><small>${a[0]}</small><b>${a[1]}</b>${a[2]}</li>`).join("")}</ul></div>
     <div class="box wide"><h3>あなたに似ている人</h3><p class="lead">動画の中で、${E[type].code}が強いと分析されていた人たちです（動画内のネタとしての分析で、本人の性格を断定するものではありません）。</p><ul class="look">${lookHTML(type)}</ul></div>
     <div class="box wide" id="shareBox"><h3>分析シートをシェア</h3><p class="lead">登録は一切不要です。回答はこの端末の中だけで計算され、どこにも送信されません。この画面をそのままスクショして投稿してもOKです。</p>
