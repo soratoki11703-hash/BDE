@@ -691,8 +691,9 @@ $("#qs").addEventListener("change",e=>{
 });
 function finish(){
   const r=score(ans,ext);const q=nextExtra(r,ext);
-  if(q.length){xq=q;xa=q.map(()=>null);renderPage();scrollTo(0,0);return}
+  if(q.length){if(!ext.length)track("extra","追加の設問が出た");xq=q;xa=q.map(()=>null);renderPage();scrollTo(0,0);return}
   xq=null;exitTest();renderResult(r,false);
+  track("finish","最後まで回答");track("type-"+r.type,E[r.type].code+"型");track("group-"+GN[r.type],GN[r.type]+"グループ");if(r.close)track("close","僅差の判定");
   try{localStorage.setItem("bde_result",JSON.stringify({a:ans,x:ext}));localStorage.removeItem("bde_draft")}catch(_){}
   $("#result").scrollIntoView();
 }
@@ -703,11 +704,13 @@ $("#next").onclick=()=>{
   const st=page*PER,en=Math.min(st+PER,items.length),miss=[];
   for(let i=st;i<en;i++) if(ans[i]==null) miss.push(i);
   if(miss.length){miss.forEach(i=>document.getElementById("q"+i).classList.add("miss"));$("#hint").textContent=`未回答が${miss.length}問あります。逃げるのはBDEが足りない証拠です`;document.getElementById("q"+miss[0]).scrollIntoView({behavior:rm(),block:"center"});return}
-  if(page<PAGES-1){page++;renderPage();scrollTo(0,0)}
+  if(page<PAGES-1){page++;renderPage();scrollTo(0,0);track("page-"+(page+1),(page+1)+"ページ目に到達")}
   else{ext=[];finish()}
 };
 $("#prev").onclick=()=>{if(page>0){page--;renderPage();scrollTo(0,0)}};
-function enterTest(){document.body.classList.add("testing");renderPage();scrollTo(0,0)}
+function track(name,title){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"event/"+name,title:title||name,event:true})}catch(_){}}
+let started=false;
+function enterTest(){document.body.classList.add("testing");renderPage();scrollTo(0,0);if(!started){started=true;track("start","試験を開始")}}
 function exitTest(){document.body.classList.remove("testing");updGo()}
 function updGo(){const n=ans.filter(a=>a!=null).length;$("#goLbl").textContent=n&&n<items.length?`続きから受ける（${n} / ${items.length}）`:"授業を受ける（無料）"}
 $("#go").onclick=enterTest;
@@ -828,9 +831,9 @@ function renderResult(r,sample){
         <figure class="sheet"><img id="sheetImg" alt="BDE理論学会 認定 分析シート（${E[type].code}型「${T.name}」）" width="1080" height="1350"><figcaption>スマホは画像を長押し、パソコンは右クリック →「画像を保存」で保存できます。</figcaption></figure>
         <div class="sheetside">
           <div class="snsbtns">
-            <a class="sns x" href="${SL.x}" target="_blank" rel="noopener">Xでシェア</a>
-            <a class="sns line" href="${SL.line}" target="_blank" rel="noopener">LINEで送る</a>
-            <a class="sns threads" href="${SL.threads}" target="_blank" rel="noopener">Threadsでシェア</a>
+            <a class="sns x" data-ev="share-x" href="${SL.x}" target="_blank" rel="noopener">Xでシェア</a>
+            <a class="sns line" data-ev="share-line" href="${SL.line}" target="_blank" rel="noopener">LINEで送る</a>
+            <a class="sns threads" data-ev="share-threads" href="${SL.threads}" target="_blank" rel="noopener">Threadsでシェア</a>
           </div>
           <p class="lead" style="margin:4px 0 8px">投稿に分析シートの画像を添付すると、ひと目で結果が伝わります。</p>
           <textarea id="shareTxt" readonly aria-label="シェア用テキスト">${shareText(r)}\n${SITE_URL}\n#BDE理論</textarea>
@@ -840,10 +843,11 @@ function renderResult(r,sample){
       </div></div>
   </div></div>`;
   const upd=()=>{const t=$("#rcode");if(t)t.value=researchCode(r)};const rn=$("#rnick");if(rn){try{rn.value=localStorage.getItem("bde_nick")||""}catch(_){}rn.oninput=()=>{try{localStorage.setItem("bde_nick",rn.value)}catch(_){}upd()};document.querySelectorAll("input[name=rsat]").forEach(x=>x.onchange=upd);upd()}
-  const rc=$("#rcopy");if(rc)rc.onclick=()=>{const ta=$("#rcode");const fb=()=>{ta.select();$("#rtoast").textContent="選択しました。手動でコピーしてください"};if(navigator.clipboard)navigator.clipboard.writeText(ta.value).then(()=>{$("#rtoast").textContent="コピーしました"}).catch(fb);else fb()};
-  $("#copy").onclick=()=>{const ta=$("#shareTxt");const fb=()=>{ta.select();$("#toast").textContent="テキストを選択しました。手動でコピーしてください"};
+  document.querySelectorAll("[data-ev]").forEach(a=>a.addEventListener("click",()=>track(a.dataset.ev,a.textContent)));
+  const rc=$("#rcopy");if(rc)rc.onclick=()=>{track("research-copy","研究協力コードをコピー");const ta=$("#rcode");const fb=()=>{ta.select();$("#rtoast").textContent="選択しました。手動でコピーしてください"};if(navigator.clipboard)navigator.clipboard.writeText(ta.value).then(()=>{$("#rtoast").textContent="コピーしました"}).catch(fb);else fb()};
+  $("#copy").onclick=()=>{track("copy-text","シェア文をコピー");const ta=$("#shareTxt");const fb=()=>{ta.select();$("#toast").textContent="テキストを選択しました。手動でコピーしてください"};
     if(navigator.clipboard) navigator.clipboard.writeText(ta.value).then(()=>{$("#toast").textContent="コピーしました"}).catch(fb); else fb()};
-  $("#retry").onclick=()=>{ans=new Array(items.length).fill(null);page=0;xq=null;ext=[];try{localStorage.removeItem("bde_draft")}catch(_){}enterTest()};
+  $("#retry").onclick=()=>{track("retry","もう一度受ける");started=true;ans=new Array(items.length).fill(null);page=0;xq=null;ext=[];try{localStorage.removeItem("bde_draft")}catch(_){}enterTest()};
   space3d($("#space3d"),s,type,`--t-${type}`);
   makeSheet(r,sample).then(u=>{const im=$("#sheetImg");if(im)im.src=u}).catch(()=>{});
   renderGroups();
