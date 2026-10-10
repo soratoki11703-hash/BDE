@@ -10,6 +10,7 @@
 <meta property="og:url" content="https://soratoki11703-hash.github.io/BDE/">
 <meta property="og:image" content="https://soratoki11703-hash.github.io/BDE/images/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<script data-goatcounter="https://firstsky.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>BDE理論 診断</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -402,7 +403,7 @@ body.testing .quit{display:inline-block}
     <div class="who">— 診断を受けた人（28歳・根拠のない自信あり）</div>
     <p>MBTIはもう要りません。たった58問で、あなたの中に眠るBDE・BCE・BKE……全8エネルギーを測定。就活にも恋愛にも、たぶん使えます。</p>
     <button class="pill" id="go"><span id="goLbl">授業を受ける（無料）</span> <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 4l6 6-6 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <span class="fine">登録不要・無料・回答はどこにも送信されません ／ ※下ネタではありません。科学でございます。</span>
+    <span class="fine">登録不要・無料・回答の中身はどこにも送信されません（何人が受けたかなどの人数だけを匿名で集計しています） ／ ※下ネタではありません。科学でございます。</span>
   </div>
   <img class="heroimg" src="images/hero.jpg" width="1400" height="788" alt="雪山の六角形の焚き火を囲む、6タイプのキャラクターたち">
   <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C240,60 480,0 720,24 C960,48 1200,10 1440,30 L1440,60 L0,60Z" fill="#faf6ec"/></svg>
@@ -826,7 +827,7 @@ function renderResult(r,sample){
     <div class="box"><h3>伸び代</h3><p class="lead">次に点を動かす方向。</p><ul class="adv">${advice(r).map(a=>`<li><small>${a[0]}</small><b>${a[1]}</b>${a[2]}</li>`).join("")}</ul></div>
     <div class="box wide"><h3>あなたに似ている人</h3><p class="lead">動画に出演した雷獣・コムドットのメンバーのうち、${E[type].code}が強いと分析されていた人です（動画内のネタとしての分析で、本人の性格を断定するものではありません）。</p><ul class="look">${lookHTML(type)}</ul></div>
     ${RESEARCH&&!sample?`<div class="box wide research"><h3>研究協力用の回答コード</h3><p class="lead">診断の精度を上げるための協力モードです。ニックネームと納得度を入れてから、下のコードをコピーして、頼まれた相手にLINEなどでそのまま送ってください。2回目も同じニックネームでお願いします。</p><div class="rform"><label for="rnick">ニックネーム</label><input id="rnick" maxlength="20" placeholder="例：たけし"><span class="rl">この型は自分に当てはまる？</span><div class="rsat" role="radiogroup" aria-label="納得度">${[1,2,3,4,5].map(v=>`<label><input type="radio" name="rsat" value="${v}" aria-label="${v}"><span>${v}</span></label>`).join("")}</div><span class="rhint">1 まったく当てはまらない ／ 5 とても当てはまる</span></div><textarea id="rcode" readonly aria-label="回答コード">${researchCode(r)}</textarea><div class="share"><button class="pill" id="rcopy">回答コードをコピー</button><span class="toast" id="rtoast" aria-live="polite"></span></div></div>`:""}
-    <div class="box wide" id="shareBox"><h3>分析シートをシェア</h3><p class="lead">登録は一切不要です。回答はこの端末の中だけで計算され、どこにも送信されません。この画面をそのままスクショして投稿してもOKです。</p>
+    <div class="box wide" id="shareBox"><h3>分析シートをシェア</h3><p class="lead">登録は一切不要です。回答はこの端末の中だけで計算され、回答の中身はどこにも送信されません（何人が受けたかなどの人数だけを匿名で集計しています）。この画面をそのままスクショして投稿してもOKです。</p>
       <div class="sheetwrap">
         <figure class="sheet"><img id="sheetImg" alt="BDE理論学会 認定 分析シート（${E[type].code}型「${T.name}」）" width="1080" height="1350"><figcaption>スマホは画像を長押し、パソコンは右クリック →「画像を保存」で保存できます。</figcaption></figure>
         <div class="sheetside">
