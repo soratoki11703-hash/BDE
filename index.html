@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="雷獣ベテランちのBDE理論を60問で測定。6つの型と8つのエネルギー、命の燃焼度で判定する非公式のパロディ診断です。登録不要・無料。">
+<meta name="description" content="雷獣ベテランちのBDE理論を58問で測定。6つの型と8つのエネルギー、命の燃焼度で判定する非公式のパロディ診断です。登録不要・無料。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="BDE理論 診断｜BDE理論学会（自称）">
-<meta property="og:description" content="やっと、自分のディックの大きさが分かりました。60問・登録不要の非公式パロディ診断。">
+<meta property="og:description" content="やっと、自分のディックの大きさが分かりました。58問・登録不要の非公式パロディ診断。">
 <meta property="og:url" content="https://soratoki11703-hash.github.io/BDE/">
 <meta property="og:image" content="https://soratoki11703-hash.github.io/BDE/images/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -318,6 +318,15 @@ body.testing .quit{display:inline-block}
 .pb i{display:block;height:100%;border-radius:99px;background:var(--pc)}
 .pv{font-family:var(--latin);font-size:22px;font-weight:500;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
 
+.gnote{font-size:13px;color:var(--sub);max-width:34em;margin:-8px auto 16px;line-height:1.7}
+.gopts{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.gopt{position:relative}
+.gopt input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.gopt span{display:block;padding:10px 20px;border-radius:999px;border:2px solid var(--line);font-weight:700;font-size:15px;background:var(--paper);transition:border-color .15s,background .15s}
+.gopt:hover span{border-color:var(--kin)}
+.gopt input:checked+span{background:var(--kuro);border-color:var(--kuro);color:var(--kin-l)}
+.gopt input:focus-visible+span{outline:3px solid var(--kin);outline-offset:3px}
+
 @media (max-width:860px){
   .steps,.laws{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -352,7 +361,7 @@ body.testing .quit{display:inline-block}
   <div class="in">
     <h1>「やっと、自分の<br class="sp"><em>ディックの大きさ</em>が<br class="sp">分かりました」</h1>
     <div class="who">— 診断を受けた人（28歳・根拠のない自信あり）</div>
-    <p>MBTIはもう要りません。たった60問で、あなたの中に眠るBDE・BCE・BKE……全8エネルギーを測定。就活にも恋愛にも、たぶん使えます。</p>
+    <p>MBTIはもう要りません。たった58問で、あなたの中に眠るBDE・BCE・BKE……全8エネルギーを測定。就活にも恋愛にも、たぶん使えます。</p>
     <button class="pill" id="go"><span id="goLbl">授業を受ける（無料）</span> <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 4l6 6-6 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <span class="fine">登録不要・無料・回答はどこにも送信されません ／ ※下ネタではありません。科学でございます。</span>
   </div>
@@ -376,7 +385,7 @@ body.testing .quit{display:inline-block}
 
 <section id="test">
   <div class="in thead"><h2>BDE理論 認定試験</h2><p id="pg">1 / 5 ページ</p></div>
-  <div class="progress"><div class="in"><div class="row"><span class="lbl">バナナ成長率</span><div class="bar"><div class="fill" id="fill"></div></div><span class="ban" id="ban" aria-hidden="true"><svg viewBox="0 0 46 22"><path d="M3 6c6 10 22 14 39 7-2 5-9 8-17 8C14 21 5 15 2 7z" fill="#f1cf3b" stroke="#7a5a10" stroke-width="1.4" stroke-linejoin="round"/><path d="M2 7 1 2.5l3.5 1.8z" fill="#5a4210"/><path d="M42 13l2.5-.8-1 2.6z" fill="#5a4210"/></svg></span><div class="n" id="cnt">0 / 60</div></div></div></div>
+  <div class="progress"><div class="in"><div class="row"><span class="lbl">バナナ成長率</span><div class="bar"><div class="fill" id="fill"></div></div><span class="ban" id="ban" aria-hidden="true"><svg viewBox="0 0 46 22"><path d="M3 6c6 10 22 14 39 7-2 5-9 8-17 8C14 21 5 15 2 7z" fill="#f1cf3b" stroke="#7a5a10" stroke-width="1.4" stroke-linejoin="round"/><path d="M2 7 1 2.5l3.5 1.8z" fill="#5a4210"/><path d="M42 13l2.5-.8-1 2.6z" fill="#5a4210"/></svg></span><div class="n" id="cnt">0 / 58</div></div></div></div>
   <div class="in"><div id="qs"></div>
     <div class="hint" id="hint"></div>
     <div class="tnav"><button class="pill ghost" id="prev">戻る</button><button class="pill green" id="next">次へ</button></div>
@@ -460,15 +469,26 @@ const Q={
 };
 // ペアを直接比べる設問（左がペアの前、右が後。fは左右を入れ替えて出題）
 const CQ={
-  DO:[["人を動かすときは","正面からぶつかって引っ張る","包み込んで、気づけば巻き込んでいる"],["自信の出どころは","前に出て勝つこと","周りの面倒を見て頼られること",1],["揉めたときは","白黒はっきり言い切る","やわらかく丸め込む"],["グループでの役回りは","先頭に立つ切り込み隊長","みんなを抱える母親役",1],["言われてうれしいのは","「かっこいい」","「頼りになる」"]],
-  CV:[["からかわれたら","いじられ役としておいしくする","静かに受け止めて流す",1],["人に好かれる理由は","隙があってツッコみやすいから","何でも受け入れてくれるから"],["失敗したら","笑いのネタにして話す","相手を責めずに自分で引き受ける",1],["恋愛では","振り回されて、いじられる側","尽くして支える側"],["言われがちなのは","「ほっとけない」","「優しすぎる」",1]],
-  KH:[["人気の理由は","キャラの面白さと出し入れの上手さ","華やかさとポップさ"],["目立ち方は","わざと演じて笑いを取る","そこにいるだけで場が華やぐ",1],["近いのは","何をしても「この人っぽい」存在感","性別を超えたアイドル感"],["好かれ方は","クセになって、一部に熱狂的","老若男女、誰にでも",1],["自分の魅力は","計算して作り上げたもの","自然とにじみ出るもの"]],
+  DO:[["人を動かすときは","正面からぶつかって引っ張る","包み込んで、気づけば巻き込んでいる"],["グループでの役回りは","先頭に立つ切り込み隊長","みんなを抱える母親役",1]],
+  CV:[["人に好かれる理由は","隙があってツッコみやすいから","何でも受け入れてくれるから",1],["恋愛では","振り回されて、いじられる側","尽くして支える側"]],
+  KH:[["人気の理由は","キャラの面白さと出し入れの上手さ","華やかさとポップさ"],["近いのは","何をしても「この人っぽい」存在感","性別を超えたアイドル感",1]],
 };
+// 大分類どうしを比べる設問（攻め=0・受け=1・キャラ=2。左がxの側）
+const GQ=[
+  [0,1,"場の中での自分は","前に出て引っ張る側","いじられたり受け止めたりする側"],
+  [0,1,"人との関係で多いのは","自分のペースに巻き込む","相手のペースに合わせる",1],
+  [1,2,"愛され方は","隙や優しさで、身近に感じてもらえる","キャラや華で、少し遠くから憧れられる"],
+  [1,2,"笑いが起きるのは","素でいじられたとき","狙って演じたとき",1],
+  [2,0,"自分の強みは","どんな自分も、見せ方次第で魅力にできること","理由がなくても自信を持てること"],
+  [2,0,"人気の出方は","何をしても成立する存在感","強気に押し切る勢い",1],
+];
 const ORDER=["D","C","K","O","V","H","L","A","F"];
-const items=[];
+// 1問目：魅力の出し方（BDEとBOEなど、ペアのどちらが出やすいかの後押しに使う）
+const items=[{k:"G",gender:1,t:"あなたの魅力の出し方は、どちらに近い？"}];
 for(let i=0;i<5;i++){
   ORDER.forEach(k=>items.push({k,t:Q[k][i][0],r:!!Q[k][i][1]}));
-  ["DO","CV","KH"].forEach(p=>{const c=CQ[p][i];items.push({k:p,pair:1,t:c[0],a:c[1],b:c[2],f:!!c[3]})});
+  if(i===1||i===3) ["DO","CV","KH"].forEach(p=>{const c=CQ[p][i===1?0:1];items.push({k:p,pair:1,t:c[0],a:c[1],b:c[2],f:!!c[3]})});
+  if(i===2||i===4) [0,2,4].forEach(j=>{const g=GQ[j+(i===2?0:1)];items.push({k:"GR",grp:1,x:g[0],y:g[1],pair:1,t:g[2],a:g[3],b:g[4],f:!!g[5]})});
 }
 const PER=10,PAGES=Math.ceil(items.length/PER);
 let ans=new Array(items.length).fill(null),page=0;
@@ -512,7 +532,7 @@ const pct=(a,b)=>a+b===0?50:a/(a+b)*100;
 
 function score(a){
   // 何でも「そう思う」と答えるクセを、正逆そろった設問の平均から推定して差し引く
-  const reg=items.map((it,i)=>it.pair?null:(a[i]==null?3:a[i])).filter(x=>x!=null);
+  const reg=items.map((it,i)=>it.pair||it.gender?null:(a[i]==null?3:a[i])).filter(x=>x!=null);
   const acq=reg.reduce((x,y)=>x+y,0)/reg.length-3;
   const raw={};
   for(const k of ORDER){
@@ -520,6 +540,11 @@ function score(a){
     raw[k]=clamp(v.reduce((x,y)=>x+y,0)/v.length/6*100);
   }
   // ペア比較：+なら前（D・C・K）寄り、−なら後（O・V・H）寄り。-3〜+3
+  // 大分類どうしの比較：+ならxの側
+  const gcon=[0,0,0];
+  items.forEach((it,i)=>{if(!it.grp)return;const x=a[i]==null?3:a[i];const v=((it.f?6-x:x)-3)/2;gcon[it.x]+=v;gcon[it.y]-=v});
+  // 魅力の出し方：男性的=+1（BDE・BCE・BKE寄り）、女性的=-1（BOE・BVE・BHE寄り）
+  const gi0=items.findIndex(it=>it.gender), gv=a[gi0]==null?1:a[gi0], gq=gv-1;
   const con={};
   for(const p of ["DO","CV","KH"]){
     const v=items.map((it,i)=>{if(it.k!==p)return null;const x=a[i]==null?3:a[i];return (it.f?6-x:x)-3}).filter(x=>x!=null);
@@ -532,9 +557,9 @@ function score(a){
   for(const k in s) s[k]=Math.round(s[k]);
   // 2段階判定：①攻め・受け・キャラのどれか ②ペアのどちらか（ペア比較の設問を重視）
   const G=[["D","O","DO"],["C","V","CV"],["K","H","KH"]];
-  const gs=G.map(([x,y])=>s[x]+s[y]);
+  const gs=G.map(([x,y],i)=>s[x]+s[y]+8*gcon[i]);
   const gi=gs.indexOf(Math.max(...gs));
-  const pick=([x,y,p])=>{const d=(s[x]-s[y])+10*con[p];return [d>=0?x:y,d>=0?y:x,Math.abs(d)]};
+  const pick=([x,y,p])=>{const d=(s[x]-s[y])+10*con[p]+6*gq;return [d>=0?x:y,d>=0?y:x,Math.abs(d)]};
   const [type,partner,margin]=pick(G[gi]);
   const gs2=[...gs].sort((x,y)=>y-x), ggap=(gs2[0]-gs2[1])/2;
   // サブ：ペア内が僅差ならペアの相手、そうでなければ2番目のグループの代表
@@ -564,6 +589,11 @@ function renderPage(){
   const LB=["とてもそう思う","そう思う","ややそう思う","どちらでもない","ややそう思わない","そう思わない","まったくそう思わない"];
   for(let i=st;i<en;i++){
     const it=items[i];
+    if(it.gender){
+      const opts=[[2,"男性的"],[0,"女性的"],[1,"どちらでもない・答えたくない"]];
+      h+=`<div class="q gq${ans[i]!=null?" done":""}" id="q${i}"><p class="t">${it.t}</p><p class="gnote">BDE理論では、BDEとBOE、BCEとBVE、BKEとBHEは「同じエネルギーの男性的な出方と女性的な出方」とされています。生まれの性別ではなく、出し方で選んでください。</p><div class="gopts" role="radiogroup" aria-label="${it.t}">${opts.map(([v,l])=>`<label class="gopt"><input type="radio" name="a${i}" id="a${i}_${v}" value="${v}" ${ans[i]===v?"checked":""}><span>${l}</span></label>`).join("")}</div></div>`;
+      continue;
+    }
     // ペア比較は左右に選択肢を出す（fなら左右を入れ替え）
     const L=it.pair?(it.f?it.b:it.a):"そう思う", R=it.pair?(it.f?it.a:it.b):"そう思わない";
     const title=it.pair?`${it.t}、どちらに近い？`:it.t;
@@ -861,7 +891,7 @@ try{const d=JSON.parse(localStorage.getItem("bde_draft")||"null");if(Array.isArr
 renderPage();updGo();
 let shown=false;
 try{const r=JSON.parse(localStorage.getItem("bde_result")||"null");if(Array.isArray(r)&&r.length===items.length&&r.every(a=>a!=null)){renderResult(score(r),false);shown=true}}catch(_){}
-if(!shown){const T={D:5,C:3,K:4,O:4,V:2,H:3,L:4,A:3,F:5},CT={DO:1.5,CV:0,KH:.5};const smp=items.map(it=>{if(it.pair){const v=Math.round(3+CT[it.k]);return it.f?6-v:v}const v=T[it.k];return it.r?6-v:v});renderResult(score(smp),true)}
+if(!shown){const T={D:5,C:3,K:4,O:4,V:2,H:3,L:4,A:3,F:5},CT={DO:1.5,CV:0,KH:.5};const smp=items.map(it=>{if(it.gender)return 2;if(it.grp){const v=it.x===0?4:it.y===0?2:3;return it.f?6-v:v}if(it.pair){const v=Math.round(3+CT[it.k]);return it.f?6-v:v}const v=T[it.k];return it.r?6-v:v});renderResult(score(smp),true)}
 })();
 </script>
 
