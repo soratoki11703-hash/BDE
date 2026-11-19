@@ -172,7 +172,7 @@ section{scroll-margin-top:56px}
 /* 提唱者 */
 #author{padding-block:96px 24px}
 .prof{display:grid;grid-template-columns:auto minmax(0,1fr);gap:32px;align-items:center;max-width:760px;margin:0 auto}
-.prof .face{width:112px;height:112px}
+.prof .face{width:120px;height:120px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 4px var(--bg),0 0 0 6px var(--kin)}
 .prof h3{font-family:var(--display);font-size:clamp(28px,4vw,36px)}
 .prof .aff{font-size:15px;color:var(--sub)}
 .prof p{font-size:16px;margin:14px 0 18px}
@@ -200,8 +200,9 @@ section{scroll-margin-top:56px}
 .cast .rl{font-size:14px;color:var(--sub)}
 .cast p{font-size:16px;margin-top:4px}
 .cast a{font-size:14px;font-weight:700;color:var(--aka);text-decoration:none}
-.books h3{font-family:var(--display);font-size:24px;text-align:center}
-.books ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:32px 24px}
+.books h3{font-family:var(--display);font-size:24px;text-align:center;margin-bottom:12px}
+.books .csub{font-weight:700;color:var(--ink);margin-bottom:20px}
+.books ul{list-style:none;margin:0 0 48px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:32px 24px}
 .books a{display:block;text-decoration:none;color:var(--ink)}
 .books img{display:block;width:100%;aspect-ratio:3/4;object-fit:contain;background:var(--mist);border-radius:6px;box-shadow:0 6px 18px rgba(29,26,23,.12);transition:transform .15s}
 .books a:hover img{transform:translateY(-3px)}
@@ -413,7 +414,7 @@ body.testing .quit{display:inline-block}
 <section id="author"><div class="in">
   <div class="sech"><h2>提唱者と出演者</h2></div>
   <div class="prof">
-    <svg class="face" viewBox="0 0 120 120" aria-hidden="true"><polygon points="60,4 108,32 108,88 60,116 12,88 12,32" fill="#c08a1e"/><polygon points="60,14 99,37 99,83 60,106 21,83 21,37" fill="#141110"/><text x="60" y="76" text-anchor="middle" font-weight="700" font-size="44" fill="#dfbf6c">ベ</text></svg>
+    <img class="face" src="images/veteranchi.jpg" width="225" height="225" alt="ベテランち">
     <div>
       <h3>ベテランち</h3>
       <div class="aff">YouTube「雷獣」メンバー（灘中・灘高の同級生によるチャンネル）</div>
@@ -424,7 +425,7 @@ body.testing .quit{display:inline-block}
   </div>
   <ol class="story" id="story"></ol>
   <div class="cast" id="cast"></div>
-  <div class="books"><h3>関連書籍</h3><p class="csub">BDE理論の聞き手・やまと（コムドット）の本</p><ul id="books"></ul></div>
+  <div class="books"><h3>関連書籍</h3><div id="books"></div></div>
 </div></section>
 
 <footer><div class="in">
@@ -830,7 +831,8 @@ function renderResult(r,sample){
 const ts=t=>`${t>=3600?Math.floor(t/3600)+":"+String(Math.floor(t%3600/60)).padStart(2,"0"):Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
 // コムドットの写真（所属事務所 BRDOCK 公式サイトの宣材写真を参照）
 const CPHOTO="https://storage.googleapis.com/studio-cms-assets/projects/nBW278d9Ov/s-1799x2400_v-frms_webp_",CPH={"やまと":"4be25472-c1b6-4869-b60c-3c7486dd34b1","ひゅうが":"3882dbad-a5dd-4cd1-9e2b-2e8ae6a23122","ゆうた":"21da7cc5-70b1-44b3-a5c2-db1b6a3fef6b","あむぎり":"c15a0e72-58bc-4240-a6d6-f1205ede22dc"};
-const AV=n=>{const k=n.split("（")[0];return CPH[k]&&n.indexOf("雷獣")<0?`<img class="av ph" src="${CPHOTO}${CPH[k]}_middle.webp" alt="${k}" loading="lazy">`:`<span class="av">${n[0]}</span>`};
+const PHOTO={"ベテランち":"images/veteranchi.jpg"};
+const AV=n=>{const k=n.split("（")[0];const src=PHOTO[k]||(CPH[k]&&n.indexOf("雷獣")<0?`${CPHOTO}${CPH[k]}_middle.webp`:null);return src?`<img class="av ph" src="${src}" alt="${k}" loading="lazy">`:`<span class="av">${n[0]}</span>`};
 const LOOK={
   D:[["ひゅうが（コムドット）","BDE一本で登り詰めた男。置き配を受け取る姿すら許せない",3105],["やまと（コムドット）","X（旧Twitter）での発信は、常にBDEだった",1190],["ベテランち（雷獣）","もともとは低いところにある、生々しいBDEだった",3733]],
   C:[["しがない数学者（雷獣）","もともとは完全な乳首人間だった",2566],["あむぎり（コムドット）","乳首エナジーしか見えないからこそ、つい触りたくなる",3280]],
@@ -868,15 +870,21 @@ const STORY=[
 ];
 // 関連書籍（Amazon の ISBN-10 で直接リンク。表紙は Amazon の画像を参照）
 const BOOKS=[
-  ["4065405203","命の燃やし方","鈴木大飛（やまと）・講談社 2025","BDE理論と似ていると紹介された本",1],
-  ["4065290112","アイドル2.0","コムドット やまと・講談社 2022","エッセイ第2弾"],
-  ["4046805811","聖域","コムドット やまと・KADOKAWA","初のエッセイ"],
-  ["406526135X","コムドット写真集 TRACE","コムドット・講談社","写真集"],
-  ["4065382246","コムドット初期メン写真集 BUDDY","やまと・ゆうた・講談社 2025","写真集"],
+  ["提唱者・ベテランちの本",[
+    ["4046056975","やる気ゼロでも灘→東大理III 他力本願勉強法","ベテランち・KADOKAWA 2023","初の著書",1],
+    ["4867320226","4","青松輝（ベテランち）・ナナロク社 2023","第一歌集"],
+  ]],
+  ["聞き手・やまと（コムドット）の本",[
+    ["4065405203","命の燃やし方","鈴木大飛（やまと）・講談社 2025","BDE理論と似ていると紹介された本",1],
+    ["4065290112","アイドル2.0","コムドット やまと・講談社 2022","エッセイ第2弾"],
+    ["4046805811","聖域","コムドット やまと・KADOKAWA","初のエッセイ"],
+    ["406526135X","コムドット写真集 TRACE","コムドット・講談社","写真集"],
+    ["4065382246","コムドット初期メン写真集 BUDDY","やまと・ゆうた・講談社 2025","写真集"],
+  ]],
 ];
 function booksHTML(){
   if(!$("#books"))return;
-  $("#books").innerHTML=BOOKS.map(([a,t,by,note,pick])=>`<li${pick?' class="pick"':""}><a href="https://www.amazon.co.jp/dp/${a}" target="_blank" rel="noopener"><img src="https://images-na.ssl-images-amazon.com/images/P/${a}.09.LZZZZZZZ.jpg" alt="『${t}』の表紙" loading="lazy"><b>${t}</b><span>${by}</span><span>${note}</span><em>Amazon →</em></a></li>`).join("");
+  $("#books").innerHTML=BOOKS.map(([g,list])=>`<p class="csub">${g}</p><ul>${list.map(([a,t,by,note,pick])=>`<li${pick?' class="pick"':""}><a href="https://www.amazon.co.jp/dp/${a}" target="_blank" rel="noopener"><img src="https://images-na.ssl-images-amazon.com/images/P/${a}.09.LZZZZZZZ.jpg" alt="『${t}』の表紙" loading="lazy"><b>${t}</b><span>${by}</span><span>${note}</span><em>Amazon →</em></a></li>`).join("")}</ul>`).join("");
 }
 function castHTML(){
   if($("#story"))$("#story").innerHTML=STORY.map(([h,t,ts2])=>`<li><b>${h}</b><p>${t}${ts2?`<a href="${YT}${ts2}s" target="_blank" rel="noopener">動画 ${ts(ts2)} →</a>`:""}</p></li>`).join("");
