@@ -70,6 +70,8 @@ button{font:inherit;cursor:pointer}
 .pill.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
 .pill:disabled{opacity:.35;cursor:not-allowed;transform:none}
 .hero .fine{display:block;font-size:14px;color:#a59a86;margin-top:16px}
+.hero .total{font-size:16px;color:#d8ccb2;margin:28px 0 0}
+.hero .total b{font-family:var(--latin);font-weight:500;font-size:28px;color:var(--kin-l);margin:0 4px;font-variant-numeric:tabular-nums}
 .heroimg{display:block;width:calc(100% - 40px);max-width:920px;height:auto;margin:56px auto 0;border-radius:14px 14px 0 0}
 
 /* steps：3つの言葉だけ */
@@ -329,6 +331,7 @@ body.testing .quit{display:inline-block}
     <p>MBTIはもう要りません。</p>
     <button class="pill" id="go"><span id="goLbl">授業を受ける（無料）</span> <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 4l6 6-6 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <span class="fine">58問・登録不要・無料</span>
+    <p class="total" id="total" hidden>これまでに <b id="totalN"></b> 人が受験</p>
   </div>
   <img class="heroimg" src="images/hero.jpg" width="1400" height="788" alt="雪山の六角形の焚き火を囲む、6タイプのキャラクターたち">
 </header>
@@ -913,8 +916,17 @@ function theory(){
   $("#th").innerHTML=["D","C","K","O","V","H","L","A"].map(k=>`<div class="it" style="--pc:var(${E[k].c})"><div class="c">${E[k].code}</div><div class="j">${E[k].jp}</div><p>${E[k].desc}</p><a href="${YT}${E[k].t}s" target="_blank" rel="noopener">動画 ${fmt(E[k].t)} →</a></div>`).join("");
 }
 
+/* ---------- 累計の受験者数（GoatCounter の「最後まで回答」イベントの合計） ---------- */
+function loadTotal(){
+  const ac=new AbortController();setTimeout(()=>ac.abort(),6000);
+  fetch("https://firstsky.goatcounter.com/counter/"+encodeURIComponent("event/finish")+".json",{signal:ac.signal})
+    .then(r=>r.ok?r.json():null)
+    .then(d=>{const n=d&&parseInt(String(d.count).replace(/\D/g,""),10);if(n>0){$("#totalN").textContent=n.toLocaleString("ja-JP");$("#total").hidden=false}})
+    .catch(()=>{});
+}
+
 /* ---------- 起動 ---------- */
-theory();staticLists();
+theory();staticLists();loadTotal();
 try{const d=JSON.parse(localStorage.getItem("bde_draft")||"null");if(Array.isArray(d)&&d.length===items.length){ans=d;const f=d.findIndex(a=>a==null);page=f<0?PAGES-1:Math.floor(f/PER)}}catch(_){}
 renderPage();updGo();
 let shown=false;
