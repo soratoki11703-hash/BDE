@@ -194,6 +194,7 @@ section{scroll-margin-top:56px}
 .cast ul{list-style:none;margin:0 0 56px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:32px 28px}
 .cast li{display:flex;gap:14px;align-items:flex-start;min-width:0}
 .cast .av{flex:none;width:52px;height:52px;border-radius:50%;background:var(--tc);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:20px}
+.cast img.av{width:72px;height:72px;object-fit:cover;object-position:50% 14%;background:var(--mist);box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--tc)}
 .cast .nm{font-weight:700;font-size:17px;line-height:1.5}
 .cast .tg{display:inline-block;font-family:var(--latin);font-weight:500;font-size:14px;color:var(--tc);margin-left:8px}
 .cast .rl{font-size:14px;color:var(--sub)}
@@ -268,6 +269,7 @@ footer a{color:var(--kin-l)}
 .look{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px}
 .look li{display:flex;gap:14px;align-items:flex-start;min-width:0}
 .look .av{flex:none;width:44px;height:44px;border-radius:50%;background:var(--gc);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:18px}
+.look img.av{width:56px;height:56px;object-fit:cover;object-position:50% 14%;background:var(--mist)}
 .look b{display:block;font-size:16px;line-height:1.5}
 .look span{display:block;font-size:15px;color:var(--sub);line-height:1.6}
 .look a{font-size:14px;font-weight:700;color:var(--aka);text-decoration:none}
@@ -826,6 +828,9 @@ function renderResult(r,sample){
 
 /* ---------- 似ている人・参考資料・共同研究者 ---------- */
 const ts=t=>`${t>=3600?Math.floor(t/3600)+":"+String(Math.floor(t%3600/60)).padStart(2,"0"):Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
+// コムドットの写真（所属事務所 BRDOCK 公式サイトの宣材写真を参照）
+const CPHOTO="https://storage.googleapis.com/studio-cms-assets/projects/nBW278d9Ov/s-1799x2400_v-frms_webp_",CPH={"やまと":"4be25472-c1b6-4869-b60c-3c7486dd34b1","ひゅうが":"3882dbad-a5dd-4cd1-9e2b-2e8ae6a23122","ゆうた":"21da7cc5-70b1-44b3-a5c2-db1b6a3fef6b","あむぎり":"c15a0e72-58bc-4240-a6d6-f1205ede22dc"};
+const AV=n=>{const k=n.split("（")[0];return CPH[k]&&n.indexOf("雷獣")<0?`<img class="av ph" src="${CPHOTO}${CPH[k]}_middle.webp" alt="${k}" loading="lazy">`:`<span class="av">${n[0]}</span>`};
 const LOOK={
   D:[["ひゅうが（コムドット）","BDE一本で登り詰めた男。置き配を受け取る姿すら許せない",3105],["やまと（コムドット）","X（旧Twitter）での発信は、常にBDEだった",1190],["ベテランち（雷獣）","もともとは低いところにある、生々しいBDEだった",3733]],
   C:[["しがない数学者（雷獣）","もともとは完全な乳首人間だった",2566],["あむぎり（コムドット）","乳首エナジーしか見えないからこそ、つい触りたくなる",3280]],
@@ -838,7 +843,7 @@ const CHAP=[[154,"BDE（ビッグ・ディック・エナジー）とは"],[667,
 const CO=[["やまと（コムドット）","聞き手。最初にこの理論にハマった人",278],["しがない数学者（雷獣）","「命の燃やし方＝エネルギー空間を動く点の速さ」を考案",3953]];
 function lookHTML(type){
   if(!LOOK[type].length) return `<li><div><span>動画に出演したメンバーの中には、${E[type].code}が強いと分析された人はいませんでした。あなたが第1号かもしれません。</span></div></li>`;
-  return LOOK[type].map(([n,d,t])=>`<li><span class="av">${n[0]}</span><div><b>${n}</b><span>${d}</span><a href="${YT}${t}s" target="_blank" rel="noopener">動画 ${ts(t)} →</a></div></li>`).join("");
+  return LOOK[type].map(([n,d,t])=>`<li>${AV(n)}<div><b>${n}</b><span>${d}</span><a href="${YT}${t}s" target="_blank" rel="noopener">動画 ${ts(t)} →</a></div></li>`).join("");
 }
 // 出演者（動画内でネタとして語られた分析。本人の性格を断定するものではない）
 const CAST=[
@@ -847,7 +852,7 @@ const CAST=[
     ["しがない数学者","共同研究者","C","もともとは完全な乳首人間。「命の燃やし方＝点の速さ」を考えた人でもある。",3953],
     ["かべ","メンバー","V","無職になってから、BCE・BVEに寄りすぎている（本人談）。",2966],
   ]],
-  ["コムドット","この回のゲスト",[
+  ["コムドット","この回のゲスト（写真：所属事務所 BRDOCK 公式サイト）",[
     ["やまと","聞き手","D","最初にこの理論にハマった人。X（旧Twitter）での発信は、常にBDEだった。",278],
     ["ひゅうが","メンバー","D","BDE一本で登り詰めた男。置き配を受け取る姿すら許せない。",3105],
     ["ゆうた","メンバー","K","ファンから見たBKE・BHEが大きい。中性的な魅力を持つ、永遠の人気1位。",3401],
@@ -875,7 +880,7 @@ function booksHTML(){
 }
 function castHTML(){
   if($("#story"))$("#story").innerHTML=STORY.map(([h,t,ts2])=>`<li><b>${h}</b><p>${t}${ts2?`<a href="${YT}${ts2}s" target="_blank" rel="noopener">動画 ${ts(ts2)} →</a>`:""}</p></li>`).join("");
-  if($("#cast"))$("#cast").innerHTML=CAST.map(([g,sub,ms])=>`<h3>${g}</h3><p class="csub">${sub}</p><ul>${ms.map(([n,r,k,d,t])=>`<li style="--tc:var(--t-${k})"><span class="av">${n[0]}</span><div><div class="nm">${n}<span class="tg">${E[k].code}</span></div><div class="rl">${r}</div><p>${d}</p><a href="${YT}${t}s" target="_blank" rel="noopener">動画 ${ts(t)} →</a></div></li>`).join("")}</ul>`).join("");
+  if($("#cast"))$("#cast").innerHTML=CAST.map(([g,sub,ms])=>`<h3>${g}</h3><p class="csub">${sub}</p><ul>${ms.map(([n,r,k,d,t])=>`<li style="--tc:var(--t-${k})">${AV(n)}<div><div class="nm">${n}<span class="tg">${E[k].code}</span></div><div class="rl">${r}</div><p>${d}</p><a href="${YT}${t}s" target="_blank" rel="noopener">動画 ${ts(t)} →</a></div></li>`).join("")}</ul>`).join("");
 }
 function staticLists(){
   if($("#chap"))$("#chap").innerHTML=CHAP.map(([t,l])=>`<li><a href="${YT}${t}s" target="_blank" rel="noopener"><time>${ts(t)}</time><b>${l}</b></a></li>`).join("");
