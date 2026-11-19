@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/total.json", "destination": "https://firstsky.goatcounter.com/counter/event%2Ffinish.json" }
+  ]
+}

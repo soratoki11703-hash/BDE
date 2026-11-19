@@ -919,8 +919,9 @@ function theory(){
 /* ---------- 累計の受験者数（GoatCounter の「最後まで回答」イベントの合計） ---------- */
 function loadTotal(){
   const ac=new AbortController();setTimeout(()=>ac.abort(),6000);
-  fetch("https://firstsky.goatcounter.com/counter/"+encodeURIComponent("event/finish")+".json",{signal:ac.signal})
-    .then(r=>r.ok?r.json():null)
+  // Vercel では同じドメインの total.json 経由（広告ブロッカー対策）。無い環境では GoatCounter に直接聞く
+  const get=u=>fetch(u,{signal:ac.signal}).then(r=>r.ok?r.json():Promise.reject());
+  get("total.json").catch(()=>get("https://firstsky.goatcounter.com/counter/"+encodeURIComponent("event/finish")+".json"))
     .then(d=>{const n=d&&parseInt(String(d.count).replace(/\D/g,""),10);if(n>0){$("#totalN").textContent=n.toLocaleString("ja-JP");$("#total").hidden=false}})
     .catch(()=>{});
 }
